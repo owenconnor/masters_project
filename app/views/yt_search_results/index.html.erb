@@ -1,0 +1,53 @@
+<h1>Listing yt_search_results</h1>
+
+<table>
+  <tr>
+    <th>Id</th>
+    <th>Published</th>
+    <th>Updated</th>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Thumbnails</th>
+    <th>Search</th>
+    <th>Embed url</th>
+    <th>Author name</th>
+    <th>Author url</th>
+    <th>Category</th>
+    <th>Keywords</th>
+    <th>Player url</th>
+    <th>Duration</th>
+    <th>Viewcount</th>
+    <th>Geo</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @yt_search_results.each do |yt_search_result| %>
+  <tr>
+    <td><%= yt_search_result.id %></td>
+    <td><%= yt_search_result.published %></td>
+    <td><%= yt_search_result.updated %></td>
+    <td><%= yt_search_result.title %></td>
+    <td><%= yt_search_result.description %></td>
+    <td><%= yt_search_result.thumbnails %></td>
+    <td><%= yt_search_result.search_id %></td>
+    <td><%= yt_search_result.embed_url %></td>
+    <td><%= yt_search_result.author_name %></td>
+    <td><%= yt_search_result.author_url %></td>
+    <td><%= yt_search_result.category %></td>
+    <td><%= yt_search_result.keywords %></td>
+    <td><%= yt_search_result.player_url %></td>
+    <td><%= yt_search_result.duration %></td>
+    <td><%= yt_search_result.viewcount %></td>
+    <td><%= yt_search_result.geo %></td>
+    <td><%= link_to 'Show', yt_search_result %></td>
+    <td><%= link_to 'Edit', edit_yt_search_result_path(yt_search_result) %></td>
+    <td><%= link_to 'Destroy', yt_search_result, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Yt search result', new_yt_search_result_path %>

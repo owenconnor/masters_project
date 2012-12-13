@@ -1,0 +1,2 @@
+module SearchConceptsHelper
+end

@@ -1,0 +1,81 @@
+<%= form_for(@yt_search_result) do |f| %>
+  <% if @yt_search_result.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@yt_search_result.errors.count, "error") %> prohibited this yt_search_result from being saved:</h2>
+
+      <ul>
+      <% @yt_search_result.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :id %><br />
+    <%= f.text_field :id %>
+  </div>
+  <div class="field">
+    <%= f.label :published %><br />
+    <%= f.date_select :published %>
+  </div>
+  <div class="field">
+    <%= f.label :updated %><br />
+    <%= f.date_select :updated %>
+  </div>
+  <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_field :description %>
+  </div>
+  <div class="field">
+    <%= f.label :thumbnails %><br />
+    <%= f.text_field :thumbnails %>
+  </div>
+  <div class="field">
+    <%= f.label :search_id %><br />
+    <%= f.number_field :search_id %>
+  </div>
+  <div class="field">
+    <%= f.label :embed_url %><br />
+    <%= f.text_field :embed_url %>
+  </div>
+  <div class="field">
+    <%= f.label :author_name %><br />
+    <%= f.text_field :author_name %>
+  </div>
+  <div class="field">
+    <%= f.label :author_url %><br />
+    <%= f.text_field :author_url %>
+  </div>
+  <div class="field">
+    <%= f.label :category %><br />
+    <%= f.text_field :category %>
+  </div>
+  <div class="field">
+    <%= f.label :keywords %><br />
+    <%= f.text_field :keywords %>
+  </div>
+  <div class="field">
+    <%= f.label :player_url %><br />
+    <%= f.text_field :player_url %>
+  </div>
+  <div class="field">
+    <%= f.label :duration %><br />
+    <%= f.number_field :duration %>
+  </div>
+  <div class="field">
+    <%= f.label :viewcount %><br />
+    <%= f.number_field :viewcount %>
+  </div>
+  <div class="field">
+    <%= f.label :geo %><br />
+    <%= f.text_field :geo %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

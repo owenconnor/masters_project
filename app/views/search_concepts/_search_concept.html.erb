@@ -1,0 +1,12 @@
+<tr>
+    <td><%= search_concept.name %></td>
+    <td><%= search_concept.terms %></td>
+    <td><%= search_concept.navigation_node %></td>
+    <td><%= search_concept.is_node %></td>
+    <td><%= link_to "Show", search_concept %></td>
+    <td><%= link_to "Edit", edit_search_concept_path(search_concept) %></td>
+    <td><%= link_to "Destroy", search_concept, :confirm => 'Are you sure?', :method => :delete %></td>  
+    <%if search_concept.is_node == true%>
+    	<td><%= link_to "Search", youtube_search_path(:id => search_concept.id) %></td>
+	<% end %> 
+</tr>

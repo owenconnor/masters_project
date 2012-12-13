@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @search_concept.name %>
+</p>
+
+<p>
+  <b>Terms:</b>
+  <%= @search_concept.terms %>
+</p>
+
+<p>
+  <b>Navigation Node:</b>
+  <%= @search_concept.navigation_node %>
+</p>
+
+<p>
+  <b>Is node:</b>
+  <%= @search_concept.is_node %>
+</p>
+
+<p> This is a child of:<%=@search_concept.parent.name if @search_concept.parent %></p>
+
+<%= link_to "New Child Search Concept", new_search_concept_path(:parent_id => @search_concept.id ) %> |
+<%= link_to 'Edit', edit_search_concept_path(@search_concept) %> |
+<%= link_to 'Back', search_concepts_path %>
+<%if @search_concept.is_node == true%>
+      	<td><%= link_to "Search", youtube_search_path(:id => @search_concept.id) %></td>
+<% end %>
