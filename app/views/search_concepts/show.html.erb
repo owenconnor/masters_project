@@ -1,30 +1,29 @@
-<p id="notice"><%= notice %></p>
+<%- model_class = SearchConcept -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human %></h1>
+</div>
 
-<p>
-  <b>Name:</b>
-  <%= @search_concept.name %>
-</p>
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
+  <dd><%= @search_concept.name %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:terms) %>:</strong></dt>
+  <dd><%= @search_concept.terms %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:is_node) %>:</strong></dt>
+  <dd><%= @search_concept.is_node %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:ancestry) %>:</strong></dt>
+  <dd><%= @search_concept.ancestry %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:navigation_node) %>:</strong></dt>
+  <dd><%= @search_concept.navigation_node %></dd>
+</dl>
 
-<p>
-  <b>Terms:</b>
-  <%= @search_concept.terms %>
-</p>
-
-<p>
-  <b>Navigation Node:</b>
-  <%= @search_concept.navigation_node %>
-</p>
-
-<p>
-  <b>Is node:</b>
-  <%= @search_concept.is_node %>
-</p>
-
-<p> This is a child of:<%=@search_concept.parent.name if @search_concept.parent %></p>
-
-<%= link_to "New Child Search Concept", new_search_concept_path(:parent_id => @search_concept.id ) %> |
-<%= link_to 'Edit', edit_search_concept_path(@search_concept) %> |
-<%= link_to 'Back', search_concepts_path %>
-<%if @search_concept.is_node == true%>
-      	<td><%= link_to "Search", youtube_search_path(:id => @search_concept.id) %></td>
-<% end %>
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              search_concepts_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_search_concept_path(@search_concept), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              search_concept_path(@search_concept),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>

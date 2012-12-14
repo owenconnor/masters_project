@@ -1,33 +1,32 @@
-<%= form_for(@search_concept) do |f| %>
-  <%= f.hidden_field :parent_id %>
-  <% if @search_concept.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@search_concept.errors.count, "error") %> prohibited this search_concept from being saved:</h2>
-      <ul>
-      <% @search_concept.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+<%= form_for @search_concept, :html => { :class => 'form-horizontal' } do |f| %>
+  <div class="control-group">
+    <%= f.label :name, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name, :class => 'text_field' %>
     </div>
-  <% end %>
+  </div>
+  <div class="control-group">
+    <%= f.label :terms, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :terms, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :is_node, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :is_node, :class => 'check_box' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :navigation_node, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :navigation_node, :class => 'check_box' %>
+    </div>
+  </div>
 
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :terms %><br />
-    <%= f.text_field :terms %>
-  </div>
-   <div class="field">
-    <%= f.label :navigation_node %><br />
-    <%= f.check_box :navigation_node %>
-  </div>
-  <div class="field">
-    <%= f.label :is_node %><br />
-    <%= f.check_box :is_node %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                search_concepts_path, :class => 'btn' %>
   </div>
 <% end %>

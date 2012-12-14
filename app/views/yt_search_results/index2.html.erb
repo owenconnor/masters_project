@@ -1,0 +1,41 @@
+<div class="row">
+    <div class="span3"><h3>Active Searches</h3>
+        <ul class="nav nav-list">
+            <li class="nav-header">List header <span class="badge badge-warning">4</span></li>
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#">Library</a></li>
+        </ul>
+    </div><!-- EO span3 -->
+    <div class="span9">
+        <h1>Listing yt_search_results</h1>
+        <% @yt_search_results.each do |yt_search_result| %>
+        <div class="media">
+            
+            <div class="media-body">
+                <a class="pull-right" href="#{yt_search_result.player_url}">
+                <!-- <img class="media-object" src="images/rails.png"> -->
+                <%= image_tag("#{yt_search_result.thumbnails}", :height => '180', :width => '240') %>
+            </a>
+                <h4 class="media-heading"><%= yt_search_result.title %></h4>
+                <div class="video-info">
+                    <h6>Published Date: <%= yt_search_result.published %></h6>
+                    <h6>Duration: <%= yt_search_result.duration %></h6>
+                    <h6>Viewcount: <%= yt_search_result.viewcount %></h6>
+                </div>
+                <div class="video-info">
+                    <h6>Location: <%= yt_search_result.geo %></h6>
+                    <h6>Author: <%=link_to "#{yt_search_result.author_name}", yt_search_result.author_url %></h6>
+                    <h6>Category: <%= yt_search_result.category %></h6>
+                <div class="video-description">
+                    <%= yt_search_result.description %>
+                </div>
+                
+                <%= link_to 'Show', yt_search_result, :class => 'btn btn-mini'%>
+                <%= link_to 'Edit', edit_yt_search_result_path(yt_search_result), :class => 'btn btn-mini' %>
+                <%= link_to 'Destroy', yt_search_result, method: :delete, data: { confirm: 'Are you sure?' } %>
+            </div><!-- EO media-body -->
+        </div> <!-- EO media -->
+        <% end %>
+            
+    </div><!-- EO span9 -->
+</div> <!-- EO row -->

@@ -1,85 +1,51 @@
-<p id="notice"><%= notice %></p>
+<%- model_class = YtSearchResult -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human %></h1>
+</div>
 
-<p>
-  <b>Id:</b>
-  <%= @yt_search_result.id %>
-</p>
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:published) %>:</strong></dt>
+  <dd><%= @yt_search_result.published %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:updated) %>:</strong></dt>
+  <dd><%= @yt_search_result.updated %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:title) %>:</strong></dt>
+  <dd><%= @yt_search_result.title %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
+  <dd><%= @yt_search_result.description %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:thumbnails) %>:</strong></dt>
+  <dd><%= @yt_search_result.thumbnails %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:search_id) %>:</strong></dt>
+  <dd><%= @yt_search_result.search_id %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:embed_url) %>:</strong></dt>
+  <dd><%= @yt_search_result.embed_url %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:author_name) %>:</strong></dt>
+  <dd><%= @yt_search_result.author_name %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:author_url) %>:</strong></dt>
+  <dd><%= @yt_search_result.author_url %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:category) %>:</strong></dt>
+  <dd><%= @yt_search_result.category %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:keywords) %>:</strong></dt>
+  <dd><%= @yt_search_result.keywords %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:player_url) %>:</strong></dt>
+  <dd><%= @yt_search_result.player_url %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:duration) %>:</strong></dt>
+  <dd><%= @yt_search_result.duration %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:viewcount) %>:</strong></dt>
+  <dd><%= @yt_search_result.viewcount %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:geo) %>:</strong></dt>
+  <dd><%= @yt_search_result.geo %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:video_id) %>:</strong></dt>
+  <dd><%= @yt_search_result.video_id %></dd>
+</dl>
 
-<p>
-  <b>Published:</b>
-  <%= @yt_search_result.published %>
-</p>
-
-<p>
-  <b>Updated:</b>
-  <%= @yt_search_result.updated %>
-</p>
-
-<p>
-  <b>Title:</b>
-  <%= @yt_search_result.title %>
-</p>
-
-<p>
-  <b>Description:</b>
-  <%= @yt_search_result.description %>
-</p>
-
-<p>
-  <b>Thumbnails:</b>
-  <%= @yt_search_result.thumbnails %>
-</p>
-
-<p>
-  <b>Search:</b>
-  <%= @yt_search_result.search_id %>
-</p>
-
-<p>
-  <b>Embed url:</b>
-  <%= @yt_search_result.embed_url %>
-</p>
-
-<p>
-  <b>Author name:</b>
-  <%= @yt_search_result.author_name %>
-</p>
-
-<p>
-  <b>Author url:</b>
-  <%= @yt_search_result.author_url %>
-</p>
-
-<p>
-  <b>Category:</b>
-  <%= @yt_search_result.category %>
-</p>
-
-<p>
-  <b>Keywords:</b>
-  <%= @yt_search_result.keywords %>
-</p>
-
-<p>
-  <b>Player url:</b>
-  <%= @yt_search_result.player_url %>
-</p>
-
-<p>
-  <b>Duration:</b>
-  <%= @yt_search_result.duration %>
-</p>
-
-<p>
-  <b>Viewcount:</b>
-  <%= @yt_search_result.viewcount %>
-</p>
-
-<p>
-  <b>Geo:</b>
-  <%= @yt_search_result.geo %>
-</p>
-
-
-<%= link_to 'Edit', edit_yt_search_result_path(@yt_search_result) %> |
-<%= link_to 'Back', yt_search_results_path %>
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              yt_search_results_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_yt_search_result_path(@yt_search_result), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              yt_search_result_path(@yt_search_result),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>

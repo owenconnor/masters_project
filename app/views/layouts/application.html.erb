@@ -7,8 +7,36 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-<%= yield %>
-
+	<div class="navbar navbar-fixed-top">
+	    <div class="navbar-inner">
+	      <div class="container">
+	        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+	          <span class="icon-bar"></span>
+	          <span class="icon-bar"></span>
+	          <span class="icon-bar"></span>
+	        </a>
+	        <a class="brand" href="#">YouTube Search</a>
+	        <div class="nav-collapse">
+	          <ul class="nav">
+	            <li><%= link_to "Search Concepts", search_concepts_path %></li>
+	            <li><%= link_to "Active Searches" %></li>
+	            <li><%= link_to "My Profile" %></li>
+	          </ul>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div class="container">
+		<div class="row">
+			<div class="span6">
+				<% flash.each do |name, msg|%>
+	      			<div class="alert alert-<%= name == :notice ? "success" : "error" %>">
+	      				<%= msg %>	
+	      			</div><!-- EO Alert -->
+	    		<% end %>
+	    	</div> <!-- EO span3 -->
+		</div><!-- EO row -->
+	<%= yield %>
+	</div> <!-- EO container -->
 </body>
 </html>
