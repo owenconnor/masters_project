@@ -17,6 +17,8 @@
 </dl>
 
 <div class="form-actions">
+   <%= link_to t('.Create Child'), new_search_concept_path(:parent_id => @search_concept.id), :class => 'btn'   %>
+  <%= link_to t('.Create Search'), new_search_path(:concept_id => @search_concept.id), :class => 'btn'   %>
   <%= link_to t('.back', :default => t("helpers.links.back")),
               search_concepts_path, :class => 'btn'  %>
   <%= link_to t('.edit', :default => t("helpers.links.edit")),

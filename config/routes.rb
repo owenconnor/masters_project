@@ -1,4 +1,6 @@
 YtSearch::Application.routes.draw do
+  resources :searches
+
   resources :yt_search_results
             get "/youtube_search/", to: "yt_search_results#youtube_search"
 

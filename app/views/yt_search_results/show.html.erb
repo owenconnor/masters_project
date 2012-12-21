@@ -1,51 +1,57 @@
 <%- model_class = YtSearchResult -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human %></h1>
-</div>
+<div class="row">
+  <div class="span3">
+    <h3>Searches</h3>
+        <ul class="nav nav-list">
+            <li class="nav-header">Your Active Searches</li>
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#">Library</a></li>
+            <li class="nav-header">Active Newsroom Searches</li>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Library</a></li>
+            <li class="nav-header">Recent Searches</li>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Library</a></li>
 
-<dl class="dl-horizontal">
-  <dt><strong><%= model_class.human_attribute_name(:published) %>:</strong></dt>
-  <dd><%= @yt_search_result.published %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:updated) %>:</strong></dt>
-  <dd><%= @yt_search_result.updated %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:title) %>:</strong></dt>
-  <dd><%= @yt_search_result.title %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
-  <dd><%= @yt_search_result.description %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:thumbnails) %>:</strong></dt>
-  <dd><%= @yt_search_result.thumbnails %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:search_id) %>:</strong></dt>
-  <dd><%= @yt_search_result.search_id %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:embed_url) %>:</strong></dt>
-  <dd><%= @yt_search_result.embed_url %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:author_name) %>:</strong></dt>
-  <dd><%= @yt_search_result.author_name %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:author_url) %>:</strong></dt>
-  <dd><%= @yt_search_result.author_url %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:category) %>:</strong></dt>
-  <dd><%= @yt_search_result.category %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:keywords) %>:</strong></dt>
-  <dd><%= @yt_search_result.keywords %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:player_url) %>:</strong></dt>
-  <dd><%= @yt_search_result.player_url %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:duration) %>:</strong></dt>
-  <dd><%= @yt_search_result.duration %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:viewcount) %>:</strong></dt>
-  <dd><%= @yt_search_result.viewcount %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:geo) %>:</strong></dt>
-  <dd><%= @yt_search_result.geo %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:video_id) %>:</strong></dt>
-  <dd><%= @yt_search_result.video_id %></dd>
-</dl>
+        </ul>
+  </div><!-- EO span3 -->
+  <div class="span9">
+    <div class="page-header">
+      <h1>Youtube Video</h1>
+    </div>
 
-<div class="form-actions">
-  <%= link_to t('.back', :default => t("helpers.links.back")),
-              yt_search_results_path, :class => 'btn'  %>
-  <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_yt_search_result_path(@yt_search_result), :class => 'btn' %>
-  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-              yt_search_result_path(@yt_search_result),
-              :method => 'delete',
-              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-              :class => 'btn btn-danger' %>
-</div>
+    <div class="media">
+                <div class="media-body">
+                    <a class="pull-right" href="#{@yt_search_result.player_url}">
+                    <!-- <img class="media-object" src="images/rails.png"> -->
+                    <%= image_tag("#{@yt_search_result.thumbnails}", :height => '220', :width => '280') %>
+                </a>
+                    <h4 class="media-heading"><%= @yt_search_result.title %></h4>
+                    <div class="video-info">
+                        <h6>Published Date: <%= @yt_search_result.published %></h6>
+                        <h6>Duration: <%= @yt_search_result.duration %></h6>
+                        <h6>Viewcount: <%= @yt_search_result.viewcount %></h6>
+                    </div>
+                    <div class="video-info">
+                        <h6>Location: <%= @yt_search_result.geo %></h6>
+                        <h6>Author: <%=link_to "#{@yt_search_result.author_name}", @yt_search_result.author_url %></h6>
+                        <h6>Category: <%= @yt_search_result.category %></h6>
+                    <div class="video-description">
+                        <%= @yt_search_result.description %>
+                    </div>
+                </div><!-- EO media-body -->
+            </div> <!-- EO media -->
+
+    <div class="form-actions">
+      <%= link_to t('.back', :default => t("helpers.links.back")),
+                  yt_search_results_path, :class => 'btn'  %>
+      <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                  edit_yt_search_result_path(@yt_search_result), :class => 'btn' %>
+      <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                  yt_search_result_path(@yt_search_result),
+                  :method => 'delete',
+                  :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                  :class => 'btn btn-danger' %>
+    </div><!-- EO actions -->
+  </div> <!-- EO span9 -->
+</div><!-- EO row -->

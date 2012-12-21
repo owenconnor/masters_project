@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  video_id: MyString
+  search_concept_id: MyString
+  location: MyString
+  vicinity: MyString
+  context_terms: MyString
+  second_language: MyString
+
+two:
+  video_id: MyString
+  search_concept_id: MyString
+  location: MyString
+  vicinity: MyString
+  context_terms: MyString
+  second_language: MyString

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121213152542) do
+ActiveRecord::Schema.define(:version => 20121220184505) do
 
   create_table "search_concepts", :force => true do |t|
     t.string   "name"
@@ -25,6 +25,17 @@ ActiveRecord::Schema.define(:version => 20121213152542) do
 
   add_index "search_concepts", ["ancestry"], :name => "index_search_concepts_on_ancestry"
   add_index "search_concepts", ["navigation_node"], :name => "index_search_concepts_on_navigation_node"
+
+  create_table "searches", :force => true do |t|
+    t.string   "search_concept_id"
+    t.string   "location"
+    t.string   "vicinity"
+    t.string   "context_terms"
+    t.string   "second_language"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.string   "search_name"
+  end
 
   create_table "yt_search_results", :force => true do |t|
     t.date     "published"

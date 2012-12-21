@@ -1,4 +1,5 @@
 <%= form_for @search_concept, :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.hidden_field :parent_id%>
   <div class="control-group">
     <%= f.label :name, :class => 'control-label' %>
     <div class="controls">

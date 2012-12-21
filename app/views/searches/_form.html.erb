@@ -1,0 +1,45 @@
+<%= form_for @search, :html => { :class => 'form-horizontal' } do |f| %>
+  
+  <div class="control-group">
+    <%= f.label :search_concept_id, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :search_concept_id, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :location, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :location, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :vicinity, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :vicinity, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :context_terms, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :context_terms, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :second_language, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :second_language, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :search_name, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :search_name, :class => 'text_field' %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                searches_path, :class => 'btn' %>
+  </div>
+<% end %>

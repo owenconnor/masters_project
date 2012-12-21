@@ -6,12 +6,16 @@ gem 'rails', '3.2.6'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
+gem 'awesome_print'
 
 #Used for http GET's including to youtube api
 gem 'httparty'
 
 #gem for tree based assoc for Search Term Taxonomy
 gem 'ancestry'
+
+#used for translation
+gem 'easy_translate'
 
 #Sidekiq is used for persistant search
 gem 'sidekiq'

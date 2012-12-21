@@ -19,7 +19,7 @@
 	        <div class="nav-collapse">
 	          <ul class="nav">
 	            <li><%= link_to "Search Concepts", search_concepts_path %></li>
-	            <li><%= link_to "Active Searches" %></li>
+	            <li><%= link_to "Searches", searches_path %></li>
 	            <li><%= link_to "My Profile" %></li>
 	          </ul>
 	        </div>
@@ -28,9 +28,10 @@
 	  </div>
 	</div class="container">
 		<div class="row">
+			<div class="span3"></div> <!-- EO span3 -->
 			<div class="span6">
 				<% flash.each do |name, msg|%>
-	      			<div class="alert alert-<%= name == :notice ? "success" : "error" %>">
+	      			<div id="main-header-alert" class="alert alert-<%= name == :notice ? "success" : "error" %>">
 	      				<%= msg %>	
 	      			</div><!-- EO Alert -->
 	    		<% end %>
