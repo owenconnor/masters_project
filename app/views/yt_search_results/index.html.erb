@@ -5,13 +5,14 @@
             <li class="nav-header">Current Searches</li>
             <% @all_searches.each do |single_search| %>
                 <% if @search.id == single_search.id %>
-
                     <li><%= link_to single_search.search_name, yt_search_results_path(:search_id => @search.id), :class =>"active" %>
-                        <span class="badge badge-info">1<%= single_search.notification_count %></span>
+                        <span class="badge badge-info"><%= single_search.notification_count %></span>
+                        <% single_search.update_attributes(:notification_count => 0)%>
                     </li>
                 <% else %>
                      <li><%= link_to single_search.search_name, yt_search_results_path(:search_id => single_search.id) %></li>
-                     <span class="badge badge-info">1<%= single_search.notification_count %></span>
+                     <span class="badge badge-info"><%= single_search.notification_count %></span>
+                     <% single_search.update_attributes(:notification_count => 0)%>
                 <% end %>
             <% end %>
              <li class="divider"></li>

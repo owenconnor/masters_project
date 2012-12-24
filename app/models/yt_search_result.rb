@@ -30,36 +30,8 @@ class YtSearchResult < ActiveRecord::Base
         
     end
 
-    def self.generate_search_results(location_terms, combined_terms, search_id)
-    	#create array for storing each record returned
-      search_result = Array.new
-      compiled_search_results = Array.new
-
-      #Iterate around Location terms
-      location_terms.each do |location|
-        combined_terms.each do |search_term|
-          logger.debug "search_term: #{search_term}"
-          search_terms_insert = location  + "," +  search_term 
-          search_terms_insert.sub(",","%2C")
-          search_terms_insert.sub(" ","%20")
-          
-          search_terms_insert_escaped = CGI::escape(search_terms_insert)
-          logger.debug "search_terms_insert #{search_terms_insert}"           
-          search_result = HTTParty.get("https://gdata.youtube.com/feeds/api/videos?q=#{search_terms_insert_escaped}&time=this_week&max-results=10&key=AIzaSyCJ1HG7J7kKOJXaqaw2Cpgcc_W1kawYUbw&alt=json")
-          if search_result["feed"]["entry"] == nil 
-            next
-          end
-          search_result["feed"]["entry"].each do |entry|
-          #logger.debug "entry: #{entry}"
-          compiled_search_results.push(entry)
-        end
-        logger.debug "compiled_search_results.count: #{compiled_search_results.count}"         
-      end
-      compiled_search_results = compiled_search_results.uniq
-      YtSearchResult.process_search_results(compiled_search_results, search_id)
-    end
-
-  	end
+    #def self.generate_search_results(location_terms, combined_terms, search_id)
+  	#end
 
     def self.process_search_results(search_results, search_id)
       logger.debug "process search result data count: #{search_results.count}"
@@ -180,6 +152,8 @@ class YtSearchResult < ActiveRecord::Base
         logger.debug "all_searches #{all_searches}"  
         all_searches.each do |notify_search|
           notification_count = YtSearchResult.where(:notify_new => true, :search_id => notify_search.id).count
+          logger.debug "notify_search.id #{notify_search.id}"
+          logger.debug "notification_count #{notification_count}"  
           notify_search.update_attributes(:notification_count => notification_count)
         end
 

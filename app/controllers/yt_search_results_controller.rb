@@ -117,8 +117,10 @@ class YtSearchResultsController < ApplicationController
     @combined_search_terms |= @translated_terms
 
     logger.debug "translated + combined terms: #{@combined_search_terms}"
+
+    YoutubeSearchWorker.perform_async(@location_context_terms, @combined_search_terms, @search.id)
           
-    YtSearchResult.generate_search_results(@location_context_terms, @combined_search_terms, @search.id)
+    #YtSearchResult.generate_search_results(@location_context_terms, @combined_search_terms, @search.id)
               
     redirect_to yt_search_results_path(:search_id => @search.id)
   end
