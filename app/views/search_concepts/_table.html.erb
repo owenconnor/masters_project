@@ -1,25 +1,4 @@
-<%- model_class = SearchConcept -%>
-<div class="page-header">
-  <h1>Build a Search</h1>
-</div>
- 
-
-<div class="row">
-  <div class="span6">
-    <h4>Pick time period</h4>
-    This month, this week, today
-    
-
-  </div>
-</div>
-<div class="row">
-  <div class="span2"></div>
-  <div class="span4">
-    <h2>Select a Location</h2>
-     
-  </div> <!-- EO span4 -->
-  <div class="span4">
-    <h2>Add Predefined Terms</h2>
+<h2>Add Predefined Terms</h2>
      <table class="table table-striped">
         <thead>
           <tr>
@@ -49,21 +28,3 @@
           <% end %>
         </tbody>
       </table>  
-  </div> <!-- EO span4 -->
-  <div class="span4">
-    <h2>Add your own terms</h2>
-  </div> <!-- EO span4 -->
-
-</div><!-- EO row -->
-<div class="row"><!-- new Row -->
-  <div class="span6"><!-- span6 -->
-    <h3>Completed Query</h3>
-  </div><!-- EO span6 -->
-</div><!-- EO row -->
-<div class="row">
-  <span class="span5">
-    <%= link_to "Create Search",new_search_path(),:class => 'btn btn-primary' %>
-  </div><!--EO span5 -->
-</div><!-- EO row -->
-
-  

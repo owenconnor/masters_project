@@ -4,11 +4,24 @@ class YtSearchResultsController < ApplicationController
   def index
     if params[:search_id].blank? == true
       @yt_search_results = YtSearchResult.all
+      #please select a search to view 
     else
       @yt_search_results = YtSearchResult.where(:search_id => params[:search_id])
+      @notify_new = YtSearchResult.where(:search_id => params[:search_id], :notify_new => true)
     end
 
     @search = Search.find(params[:search_id])
+    @all_searches = Search.all
+
+
+    update_notifications = @notify_new
+    logger.debug "notify_new: :#{@notify_new.count}"
+    logger.debug "update_notifications: :#{update_notifications.count}"
+
+    update_notifications.each do |update|
+      update.update_attributes(:notify_new => false)
+    end    
+
 
     respond_to do |format|
       format.html # index.html.erb

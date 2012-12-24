@@ -1,4 +1,5 @@
 class SearchesController < ApplicationController
+  EasyTranslate.api_key = 'AIzaSyCJ1HG7J7kKOJXaqaw2Cpgcc_W1kawYUbw'
   # GET /searches
   # GET /searches.json
   def index
@@ -24,7 +25,23 @@ class SearchesController < ApplicationController
   # GET /searches/new
   # GET /searches/new.json
   def new
-    @search = Search.new(:search_concept_id => params[:concept_id])
+    @search = Search.new#(:search_concept_id => params[:concept_id])
+    if params[:list_parent_id].blank? == false
+      @search_concept = SearchConcept.children_of(params[:list_parent_id])
+    elsif params[:show_parent_id].blank? == false
+      @search_concept = SearchConcept.find(params[:show_parent_id])
+    else
+      @search_concept = SearchConcept.roots
+    end
+
+    @search_concept_id = params[:search_concept_id]
+
+
+    EasyTranslate.api_key = 'AIzaSyCJ1HG7J7kKOJXaqaw2Cpgcc_W1kawYUbw'
+    @languages = Array.new
+    @languages = EasyTranslate.translations_available
+    logger.debug "@languages: #{@languages}"
+    @possible_date_ranges = ["Today", "This Week", "This Month"]
 
     respond_to do |format|
       format.html # new.html.erb

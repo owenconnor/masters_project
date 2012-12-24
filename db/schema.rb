@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121220184505) do
+ActiveRecord::Schema.define(:version => 20121224001646) do
 
   create_table "search_concepts", :force => true do |t|
     t.string   "name"
@@ -32,9 +32,11 @@ ActiveRecord::Schema.define(:version => 20121220184505) do
     t.string   "vicinity"
     t.string   "context_terms"
     t.string   "second_language"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
     t.string   "search_name"
+    t.string   "date_range"
+    t.integer  "notification_count"
   end
 
   create_table "yt_search_results", :force => true do |t|
@@ -53,9 +55,10 @@ ActiveRecord::Schema.define(:version => 20121220184505) do
     t.integer  "duration"
     t.integer  "viewcount"
     t.string   "geo"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
     t.string   "video_id"
+    t.boolean  "notify_new",  :default => false
   end
 
   add_index "yt_search_results", ["video_id"], :name => "index_yt_search_results_on_video_id", :unique => true

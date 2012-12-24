@@ -1,6 +1,64 @@
 <%- model_class = Search -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => t('helpers.titles.new', :model => model_class.model_name.human,
-                                 :default => "New #{model_class.model_name.human}") %></h1>
+
+
+		<div class="page-header">
+	  		<h1><%=t '.title', :default => t('helpers.titles.new', :model => model_class.model_name.human,
+	                                 :default => "New #{model_class.model_name.human}") %></h1>
+		</div><!-- EO page-header -->
+<div class="row">
+		<div class="span6">
+			<h4>Enter Search Context</h4>
+			<%= render :partial => 'form' %>
+		</div>	
+		<div class="span6">
+			<h4>Event Types</h4>
+			<div class="tabbable">
+  				<ul class="nav nav-tabs">
+    				<li class="active"><a href="#pane1" data-toggle="tab">Event List</a></li>
+				    <li><a href="#pane2" data-toggle="tab">Event Cloud</a></li>
+				    <li><a href="#pane3" data-toggle="tab">Event Map</a></li>
+				</ul>
+  				<div class="tab-content">
+    				<div id="pane1" class="tab-pane active">
+      					<h4>Select an Event</h4>
+      					<div class="well">
+      						<ul class="event-list">
+      							<% @search_concept.each do |concept|%>
+	      								<li>
+	      									<span class="concept-name">
+	      										<%= concept.name%>
+	      									</span>
+	      									<div class="concept-list-buttons"
+		      									<% if concept.has_children? == true %>
+		      									<span> 
+		      										<%= link_to "View Children", new_search_path(:list_parent_id => concept.id), :class => "btn"%></span>
+		      									<% else %>
+			      									<span>
+				      									<a href="#" id="show-terms" 
+				      									class="btn-small btn-primary" 
+				      									rel="popover" 
+				      									data-content= <%= concept.terms %>, <%= concept.terms %>
+				      									data-original-title=<%= concept.name + " Terms" %> >Show Terms</a>
+			      									</span>
+			      									<span>
+			      										<%= link_to "Select Terms", new_search_path(:search_concept_id => concept.id)%>
+			      									</span>
+			      								<% end %>
+		      								</div><!-- EO concept-list-buttons -->
+	      								</li>
+      							<% end %>
+      						</ul>
+      					</div><!-- EO well -->
+    				</div>
+				    <div id="pane2" class="tab-pane">
+				    <h4>Pane 2 Content</h4>
+				      <p> and so on ...</p>
+				    </div>
+				    <div id="pane3" class="tab-pane">
+				      <h4>Pane 3 Content</h4>
+				    </div>
+				  </div><!-- /.tab-content -->
+				</div><!-- /.tabbable -->
+		</div>
 </div>
-<%= render :partial => 'form' %>
+

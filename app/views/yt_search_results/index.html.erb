@@ -1,17 +1,21 @@
 <div class="row">
-    <div class="span2">
+    <div class="span3">
         <h3>Searches</h3>
         <ul class="nav nav-list">
-            <li class="nav-header">Your Active Searches</li>
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#">Library</a></li>
-            <li class="nav-header">Active Newsroom Searches</li>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Library</a></li>
-            <li class="nav-header">Recent Searches</li>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Library</a></li>
+            <li class="nav-header">Current Searches</li>
+            <% @all_searches.each do |single_search| %>
+                <% if @search.id == single_search.id %>
 
+                    <li><%= link_to single_search.search_name, yt_search_results_path(:search_id => @search.id), :class =>"active" %>
+                        <span class="badge badge-info">1<%= single_search.notification_count %></span>
+                    </li>
+                <% else %>
+                     <li><%= link_to single_search.search_name, yt_search_results_path(:search_id => single_search.id) %></li>
+                     <span class="badge badge-info">1<%= single_search.notification_count %></span>
+                <% end %>
+            <% end %>
+             <li class="divider"></li>
+             <li class="nav-header">Archived Searches</li>
         </ul>
     </div><!-- EO span3 -->
     <div class="span12">
@@ -39,7 +43,7 @@
        
             <ul class="thumbnails">
                 <% @yt_search_results.each do |yt_search_result| %>
-                <li class="span4" id="video_thumb_box">
+                <li class="span3" id="video_thumb_box">
                     <a href="#" class="thumbnail">
                     <%= image_tag("#{yt_search_result.thumbnails}", :height => '240', :width => '320') %>
                     </a>

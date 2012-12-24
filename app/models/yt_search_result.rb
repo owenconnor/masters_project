@@ -1,6 +1,6 @@
 # encoding: utf-8
 class YtSearchResult < ActiveRecord::Base
-  	attr_accessible :author_name, :author_url, :category, :description, :duration, :embed_url, :geo, :id, :keywords, :player_url, :published, :search_id, :thumbnails, :title, :updated, :viewcount, :video_id, :thumbnails
+  	attr_accessible :author_name, :author_url, :category, :description, :duration, :embed_url, :geo, :id, :keywords, :player_url, :published, :search_id, :thumbnails, :title, :updated, :viewcount, :video_id, :thumbnails, :notify_new
 
     EasyTranslate.api_key = 'AIzaSyCJ1HG7J7kKOJXaqaw2Cpgcc_W1kawYUbw'
 
@@ -23,7 +23,7 @@ class YtSearchResult < ActiveRecord::Base
         logger.debug "terms passed to model:#{terms}"
         translated_terms = Array.new
         terms.each do |term|
-          translated_terms.push(EasyTranslate.translate(term, :to => :french))
+          translated_terms.push(EasyTranslate.translate(term, :to => :arabic))
         end
         logger.debug "translated_terms to be returned:#{translated_terms}"
         return translated_terms
@@ -43,9 +43,9 @@ class YtSearchResult < ActiveRecord::Base
           search_terms_insert.sub(",","%2C")
           search_terms_insert.sub(" ","%20")
           
-
+          search_terms_insert_escaped = CGI::escape(search_terms_insert)
           logger.debug "search_terms_insert #{search_terms_insert}"           
-          search_result = HTTParty.get("https://gdata.youtube.com/feeds/api/videos?q=#{search_terms_insert}&time=this_week&max-results=10&key=AIzaSyCJ1HG7J7kKOJXaqaw2Cpgcc_W1kawYUbw&alt=json")
+          search_result = HTTParty.get("https://gdata.youtube.com/feeds/api/videos?q=#{search_terms_insert_escaped}&time=this_week&max-results=10&key=AIzaSyCJ1HG7J7kKOJXaqaw2Cpgcc_W1kawYUbw&alt=json")
           if search_result["feed"]["entry"] == nil 
             next
           end
@@ -138,7 +138,7 @@ class YtSearchResult < ActiveRecord::Base
         else
           logger.debug "Duplicate found and not added"
         end
-        #Add all results to a nested array
+        
         
         
 
@@ -167,7 +167,8 @@ class YtSearchResult < ActiveRecord::Base
                 :thumbnails => result[10], 
                 :title => result[11], 
                 :duration => result[12],
-                :search_id => result[13], 
+                :search_id => result[13],
+                :notify_new => true 
                 #:viewcount => result[14] 
                 #:geo => "01",
               )
@@ -175,6 +176,12 @@ class YtSearchResult < ActiveRecord::Base
             logger.debug "SQL insert failed at #{result}"  
           end            
         end  
+        all_searches = Search.all
+        logger.debug "all_searches #{all_searches}"  
+        all_searches.each do |notify_search|
+          notification_count = YtSearchResult.where(:notify_new => true, :search_id => notify_search.id).count
+          notify_search.update_attributes(:notification_count => notification_count)
+        end
 
     end
 

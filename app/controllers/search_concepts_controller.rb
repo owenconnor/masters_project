@@ -3,6 +3,7 @@ class SearchConceptsController < ApplicationController
   # GET /search_concepts.json
   def index
     @search_concepts = SearchConcept.all
+    
 
     respond_to do |format|
       format.html # index.html.erb

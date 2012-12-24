@@ -17,6 +17,8 @@ gem 'ancestry'
 #used for translation
 gem 'easy_translate'
 
+gem 'simple_form'
+
 #Sidekiq is used for persistant search
 gem 'sidekiq'
 gem 'sinatra', require: false #enables the sidekiq web ui

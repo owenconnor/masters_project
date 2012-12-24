@@ -3,3 +3,13 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 
+.event-list li {
+	display:block;
+	
+}
+
+.event-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}

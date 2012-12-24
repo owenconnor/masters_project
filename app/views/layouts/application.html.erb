@@ -32,6 +32,7 @@
 			<div class="span6">
 				<% flash.each do |name, msg|%>
 	      			<div id="main-header-alert" class="alert alert-<%= name == :notice ? "success" : "error" %>">
+	      				<a class="close" data-dismiss="alert">x</a>
 	      				<%= msg %>	
 	      			</div><!-- EO Alert -->
 	    		<% end %>

@@ -1,45 +1,14 @@
-<%= form_for @search, :html => { :class => 'form-horizontal' } do |f| %>
-  
-  <div class="control-group">
-    <%= f.label :search_concept_id, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :search_concept_id, :class => 'text_field' %>
-    </div>
-  </div>
-  <div class="control-group">
-    <%= f.label :location, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :location, :class => 'text_field' %>
-    </div>
-  </div>
-  <div class="control-group">
-    <%= f.label :vicinity, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :vicinity, :class => 'text_field' %>
-    </div>
-  </div>
-  <div class="control-group">
-    <%= f.label :context_terms, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :context_terms, :class => 'text_field' %>
-    </div>
-  </div>
-  <div class="control-group">
-    <%= f.label :second_language, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :second_language, :class => 'text_field' %>
-    </div>
-  </div>
-  <div class="control-group">
-    <%= f.label :search_name, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :search_name, :class => 'text_field' %>
-    </div>
-  </div>
-
-  <div class="form-actions">
-    <%= f.submit nil, :class => 'btn btn-primary' %>
-    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                searches_path, :class => 'btn' %>
-  </div>
+<%= simple_form_for @search, :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.input :search_name, :required => true %>
+  <%= f.input :location, :placeholder => 'Where the event is happening'%>
+  <%= f.input :vicinity, :placeholder => 'The broader Region or State'%>
+  <%= f.input :date_range, :collection => @possible_date_ranges, :required => true %>
+  <%= f.input :second_language, :collection => @languages %>
+  <%= f.input :context_terms, :placeholder => 'Search terms comma separated' %>
+  <%=f.hidden_field :search_concept_id, :value => @search_concept_id %>
+  <%= f.button :submit %>
 <% end %>
+
+
+
+ 
