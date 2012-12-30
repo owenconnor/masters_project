@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121228201132) do
+ActiveRecord::Schema.define(:version => 20121230214052) do
 
   create_table "search_concepts", :force => true do |t|
     t.string   "name"
@@ -38,6 +38,8 @@ ActiveRecord::Schema.define(:version => 20121228201132) do
     t.string   "date_range"
     t.integer  "notification_count"
     t.boolean  "active_search",      :default => false
+    t.string   "thumbnail"
+    t.string   "geolocation"
   end
 
   create_table "yt_search_results", :force => true do |t|

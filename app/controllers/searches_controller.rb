@@ -5,6 +5,11 @@ class SearchesController < ApplicationController
   def index
     @searches = Search.all
 
+    @searches.each do |search|
+      first_result = YtSearchResult.where(:search_id => search.id).first
+      search.update_attributes(:thumbnail => first_result.thumbnails)
+    end
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @searches }

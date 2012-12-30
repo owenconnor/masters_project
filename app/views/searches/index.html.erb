@@ -2,45 +2,54 @@
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
 </div>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
-      <th><%= model_class.human_attribute_name(:search_concept_id) %></th>
-      <th><%= model_class.human_attribute_name(:location) %></th>
-      <th><%= model_class.human_attribute_name(:vicinity) %></th>
-      <th><%= model_class.human_attribute_name(:context_terms) %></th>
-      <th><%= model_class.human_attribute_name(:second_language) %></th>
-      <th><%= model_class.human_attribute_name(:search_name) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
-      <th><%=t '.actions', :default => t("helpers.actions") %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @searches.each do |search| %>
-      <tr>
-        <td><%= link_to search.id, search_path(search) %></td>
-        <td><%= search.search_concept_id %></td>
-        <td><%= search.location %></td>
-        <td><%= search.vicinity %></td>
-        <td><%= search.context_terms %></td>
-        <td><%= search.second_language %></td>
-        <td><%= search.search_name %></td>
-        <td><%=l search.created_at %></td>
-        <td>
-          <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_search_path(search), :class => 'btn btn-mini' %>
-          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      search_path(search),
-                      :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-mini btn-danger' %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="row">
+  <div class="span2"><div><!-- EO span2 -->
+  <div class="span10">
+    <div class="tabbable">
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#pane1" data-toggle="tab">Your Searches</a></li>
+            <li><a href="#pane2" data-toggle="tab">Newsroom Searches</a></li>
+            <li><a href="#pane3" data-toggle="tab">Archive Searches</a></li>
+        </ul>
+          <div class="tab-content">
+            <div id="pane1" class="tab-pane active">
+              <ul class="thumbnails">
+              <% @searches.each do |search| %>
+                <li class="span4">
+                  <div class="search-container">
+                    <%= link_to image_tag(search.thumbnail, :border => 0), search_path(search.id)  %>
+                    <h4><%= search.search_name %></h4>
+                    <span class="badge badge-info"><%= search.notification_count%></span>
+                    <h6>Search Details</h6>
+                    <div class="search-details">
+                      <span>Created by Owen Connor at <%= search.created_at.strftime("%d %b %H:%M")%>  </span>
+                      <span>Location:<%= search.location%>,<%= search.vicinity%></span>
+                      <span>Geolocation:<%= search.geolocation%></span>
+                      <span>Second Language:<%= search.geolocation%></span>
+                      <span>Terms:<%= search.context_terms%></span>
+                    </div><!-- EO search-details -->
+                    <div class="action-buttons">
+                    <%= link_to "Edit Search", edit_search_path(search.id), :class => "btn btn-small btn-primary"%>  
+                    <%= link_to "View Results", yt_search_results_path(:search_id => search.id), :class => "btn btn-small btn-info"%>
+                    </div><!-- EO action-buttons --> 
+                  </div><!-- EO search-border -->
+                </li>
+              <% end %>
+            </ul> 
 
-<%= link_to t('.new', :default => t("helpers.links.new")),
-            new_search_path,
-            :class => 'btn btn-primary' %>
+            </div>
+            <div id="pane2" class="tab-pane">
+            <h4>Pane 2 Content</h4>
+              <p> and so on ...</p>
+            </div>
+            <div id="pane3" class="tab-pane">
+              <h4>Pane 3 Content</h4>
+            </div>
+          </div><!-- /.tab-content -->
+        </div><!-- /.tabbable -->
+    
+  <div><!-- EO span10 -->
+</div> <!-- EO row -->
+
+
+

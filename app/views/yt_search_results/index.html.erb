@@ -23,22 +23,22 @@
     </div><!-- EO span3 -->
     <div class="span12">
         <h1><%= @search.search_name %></h1>
-        <h5>Created:<%= @search.created_at %></h5>
-         <div class="span9">
-            <div id="filter-button">
-                <div class="btn-group">
-                    <button class="btn">Fliter By</button>
-                    <button class="btn dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <!-- dropdown menu links -->
-                        <li> <button class="btn btn-mini">Ranking</button></li>
-                        <li>Uploader</li>
-                        <li>Published</li>
-                        <li>Location</li>
-                    </ul>
-                </div><!-- EO btn-group -->
+        <h5>Created by Owen Connor on <%= @search.created_at.strftime("%d %b %H:%M") %></h5>
+        <div class="span11">
+          <div id="filter-button">
+            <div class="btn-group">
+              <button class="btn">Sort By</button>
+              <button class="btn dropdown-toggle" data-toggle="dropdown">
+              <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <!-- dropdown menu links -->
+                <li>Uploader</li>
+                <li>Published</li>
+                <li>Geolocation</li>
+                <li>Ranking</li>
+              </ul>
+            </div>
             </div><!-- EO filter-button -->
         </div>
         <section id="content">
@@ -46,36 +46,126 @@
                 <% @yt_search_results.each do |yt_search_result| %>
                     <div class="box col1 masonry-brick">
                         <div class="top-meta">
-                          <img src="images/icon_image.png" class="opacity"/>
-                          <span class="listtype"><%=link_to "#{yt_search_result.author_name}", yt_search_result.author_url %></span>
+                          <span class="listtype">
+                              <i class="icon-user"></i>
+                                <%=link_to "#{yt_search_result.author_name}", yt_search_result.author_url %>
+                            </span>
                         </div>
-                        <h3><%= yt_search_result.title %></h3>
-                        <%= link_to image_tag(yt_search_result.thumbnails, :border => 0)%>
+                        <div class="video-title">
+                          <%= yt_search_result.title %>
+                        </div>
+                        <%= link_to image_tag(yt_search_result.thumbnails, :border => 0),:anchor => "#modal-#{yt_search_result.video_id}", :role => "button", :class =>"btn btn-small btn-primary"%>
+                        <h6>Video Details</h6>
+                        <div class="video-details">
+                          <div class="video-meta">
+                            <ul class="video-icons">
+                              <li>
+                                <a href="#" rel="tooltip" title="Published Date">
+                                <i class="icon-calendar"></i>
+                                <%=yt_search_result.published%>
+                              </li>
+                              <li>
+                                <a href="#" rel="tooltip" title="Video Duration">
+                                <i class="icon-time"></i>
+                                <%=yt_search_result.duration%> seconds</a>
+                              </li>
+                              <li>
+                                <a href="#" rel="tooltip" title="Youtube Uploader">
+                                <i class="icon-user"></i><%= yt_search_result.author_name %></a>
+                              </li>
+                            </ul>
+                          </div> <!-- EO video-meta -->
+                          <div class="video-meta">
+                            <ul class="video-icons">
+                              <li>
+                                <a href="#" rel="tooltip" title="Youtube Category">
+                                <i class="icon-tag"></i>
+                                <%= yt_search_result.category%></a>
+                              </li>
+                              <li>
+                                <a href="#" rel="tooltip" title="Viewcount Number">
+                                <i class="icon-eye-open"></i> Viewcount</a>
+                              </li>
+                              <li>
+                                <a href="#" rel="tooltip" title="Geolocation">
+                                <i class="icon-globe"></i>Geoloaction</a>
+                              </li>
+                            </ul>
+                          </div> <!-- EO video-meta -->
+                        </div> <!-- EO video-details -->
+                        <h6>View On Youtube</h6>
+                        <%= link_to yt_search_result.player_url, yt_search_result.player_url, :class => "top-meta"  %>
+                        <h6>Video Desciption</h6>
                         <p>
-                            Description: 
-                        </p>
-                        <p> 
-                            <%= yt_search_result.description %>
-                        </p>
-                        <span class="mentioncount">300</span>
+                          <%= truncate(yt_search_result.description, :length => 500) %>
+                          <% link_to "View more" %><i class="icon-arrow-down"></i>
+                        </p><!-- EO video_description -->
                         <!-- Button to trigger modal -->
-                        <a href=<%= "#modal-#{yt_search_result.video_id}"%> role="button" class="btn" data-toggle="modal">Launch demo modal</a>
+                        <div class="modal-display-button">
+                        <a href=<%= "#modal-#{yt_search_result.video_id}"%> role="button" class="btn btn-small btn-primary" data-toggle="modal"><i class="icon-play-circle"></i>View Video</a>
+                      </div><!-- modal-display-button -->
+                      
+
                          
                         <!-- Modal -->
-                        <div id=<%= "modal-#{yt_search_result.video_id}"%> class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div id=<%= "modal-#{yt_search_result.video_id}"%> class="modal hide  fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                           <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h3 id="myModalLabel"><%= yt_search_result.title %></h3>
+                            <div class="video-title" class="modal-title">
+                              <%= yt_search_result.title %>
+                            </div>
                           </div>
                           <div class="modal-body">
+                            <div class="modal-video">
                             <%= yt_search_result.embed_url.html_safe %>
+                          </div><!-- EO modal-video -->
+                          <h6>Video Details</h6>
+                            <div class="video-details">
+                          <div class="video-meta">
+                            <ul class="video-icons">
+                              <li>
+                                <a href="#" rel="tooltip" title="Published Date">
+                                  <i class="icon-calendar"></i>
+                                  <%=yt_search_result.published%>
+                                </li>
+                              <li>
+                                <a href="#" rel="tooltip" title="Video Duration">
+                                  <i class="icon-time"></i>
+                                  <%=yt_search_result.duration%> seconds</a>
+                              </li>
+                              <li>
+                                <a href="#" rel="tooltip" title="Youtube Uploader">
+                                  <i class="icon-user"></i><%= yt_search_result.author_name %></a>
+                              </li>
+                            </ul>
+                          </div> <!-- EO video-meta -->
+                          <div class="video-meta">
+                            <ul class="video-icons">
+                              <li>
+                                <a href="#" rel="tooltip" title="Youtube Category">
+                                  <i class="icon-tag"></i>
+                                  <%= yt_search_result.category%></a>
+                              </li>
+                              <li>
+                                <a href="#" rel="tooltip" title="Viewcount Number">
+                                  <i class="icon-eye-open"></i> Viewcount</a>
+                              </li>
+                              <li>
+                                <a href="#" rel="tooltip" title="Geolocation">
+                                  <i class="icon-globe"></i>Geoloaction</a>
+                              </li>
+                            </ul>
+                          </div> <!-- EO video-meta -->
+                        </div> <!-- EO video-details -->
+                        <h6>Video Description</h6>
+                            <p> 
+                            <%= truncate(yt_search_result.description, :length => 500) %>
+                            </p>
                           </div>
                           <div class="modal-footer">
                             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                            <button class="btn btn-primary">Save changes</button>
                           </div>
-                        </div>
-                        
+                        </div> 
                     </div> <!-- EO box col1 masonry-brick -->
                 <% end %>
             </div><!-- EO container -->

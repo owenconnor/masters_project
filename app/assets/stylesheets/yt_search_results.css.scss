@@ -16,10 +16,13 @@
 
 .box {
   margin: 5px;
-  padding: 30px;
-  background: #EBEBEB;
+  padding: 20px;
+  background: #E5E5E5;
   line-height: 1.4em;
   float: left;
+  border-style:solid;
+  border-width:1px;
+  border-color:#CDCDC1;
   -webkit-border-radius: 8px;
      -moz-border-radius: 8px;
           border-radius: 8px;
@@ -45,19 +48,57 @@
 
 .large-image{width:100%;}
 
-.mentioncount{
-	height:25px;
-	background-position-x: center;
-	color:white;
-	font-weight: bold;
-	margin:0;
-	padding:3px 10px 10px 10px;
-	background-image: url('../images/bubble_bg.png');
-	background-repeat: no-repeat;
-	text-align: center;
-	font: 11px 'Helvetica Neue', Arial, sans-serif;
-	font-weight: bold;
-	}
+.box .video-meta{
+  display: inline-block;
+  width:48%;
+  padding: 5px, 5px, 5px, 0px
+}
+
+.box .video-meta ul{
+  list-style-type: none;
+  padding: 0px;
+  margin-top: 10px;
+}
+
+.box .video-meta li{
+  display: block;
+  margin: 0px;
+}
+
+.box .video-meta a{
+  text-decoration:none;
+  color:#607b8b;
+}
+
+.box .video-details {
+  margin-top:5px;
+  margin-bottom:5px;
+  display:block;
+  border-style:solid;
+  border-width:1px;
+  border-color:#607B8B;
+}
+
+.video-title{
+  font-size:20px;
+  margin-bottom:10px;
+  color:#607B8B;
+}
+
+.modal-video{
+  margin:0px auto;
+  margin-left:20px;
+}
+
+.modal-title{
+  border-bottom-style:solid;
+  border-width:1px;
+  border-color:#607b8b;
+}
+.modal-display-button{
+  float:right;
+}
+
 
 /**** CSS for Masonry ****/	
 

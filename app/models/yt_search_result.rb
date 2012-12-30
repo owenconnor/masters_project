@@ -1,6 +1,6 @@
 # encoding: utf-8
 class YtSearchResult < ActiveRecord::Base
-  	attr_accessible :author_name, :author_url, :category, :description, :duration, :embed_url, :geo, :id, :keywords, :player_url, :published, :search_id, :thumbnails, :title, :updated, :viewcount, :video_id, :thumbnails, :notify_new
+  	attr_accessible :author_name, :author_url, :category, :description, :duration, :embed_url, :geo, :id, :keywords, :player_url, :published, :search_id, :thumbnails, :title, :updated, :viewcount, :video_id, :notify_new
     EasyTranslate.api_key = 'AIzaSyCJ1HG7J7kKOJXaqaw2Cpgcc_W1kawYUbw'
     #self.per_page = 10
 
