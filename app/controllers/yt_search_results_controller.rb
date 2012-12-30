@@ -7,11 +7,19 @@ class YtSearchResultsController < ApplicationController
       #please select a search to view 
     else
       @yt_search_results = YtSearchResult.where(:search_id => params[:search_id])
+      if params[:page].blank? == true
+        @yt_search_results = @yt_search_results.paginate(:page => 1, :per_page => 10)
+      else
+        @yt_search_results = @yt_search_results.paginate(:page => params[:page], :per_page => 10)
+      end
       @notify_new = YtSearchResult.where(:search_id => params[:search_id], :notify_new => true)
+      @current_search = params[:search_id].to_i
     end
 
+    @new_results = YtSearchResult.where(:search_id => params[:search_id], :notify_new => true)
+
     @search = Search.find(params[:search_id])
-    @all_searches = Search.all
+    @active_searches = Search.where(:active_search => true)
 
 
     update_notifications = @notify_new
@@ -113,10 +121,11 @@ class YtSearchResultsController < ApplicationController
     
     logger.debug "@translated_terms post model: #{@translated_terms}"
     
-
     @combined_search_terms |= @translated_terms
 
     logger.debug "translated + combined terms: #{@combined_search_terms}"
+
+    @search.update_attributes(:active_search => true)
 
     YoutubeSearchWorker.perform_async(@location_context_terms, @combined_search_terms, @search.id)
           

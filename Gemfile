@@ -5,7 +5,10 @@ gem 'rails', '3.2.6'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
+
+#dle updategem 'sqlite3'
+gem 'pg'
+
 gem 'awesome_print'
 
 #Used for http GET's including to youtube api
@@ -17,12 +20,19 @@ gem 'ancestry'
 #used for translation
 gem 'easy_translate'
 
+#Makes forms easier to manage and work better with bootstrap
 gem 'simple_form'
 
-#Sidekiq is used for persistant search
+#for pagination
+gem 'will_paginate', '~> 3.0'
+
+#Sidekiq is used for running background jobs in persistant search
 gem 'sidekiq'
 gem 'sinatra', require: false #enables the sidekiq web ui
 gem 'slim' #enables the sidekiq web ui
+
+#rufus is a scheduler which mananges running searches every x seconds
+gem 'rufus-scheduler'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -35,8 +45,8 @@ group :assets do
 	gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
 	gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
 
-  	# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  	# gem 'therubyracer', :platforms => :ruby
+  	#Masonry Support for displaying videos
+  	gem 'masonry-rails'
 
   	gem 'uglifier', '>= 1.0.3'
 end

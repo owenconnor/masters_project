@@ -1,8 +1,9 @@
 # encoding: utf-8
 class YtSearchResult < ActiveRecord::Base
   	attr_accessible :author_name, :author_url, :category, :description, :duration, :embed_url, :geo, :id, :keywords, :player_url, :published, :search_id, :thumbnails, :title, :updated, :viewcount, :video_id, :thumbnails, :notify_new
-
     EasyTranslate.api_key = 'AIzaSyCJ1HG7J7kKOJXaqaw2Cpgcc_W1kawYUbw'
+    #self.per_page = 10
+
 
   	def self.get_location_search_terms(search_id)
       search = Search.find(search_id)
@@ -41,13 +42,13 @@ class YtSearchResult < ActiveRecord::Base
 
       search_results.each do |video_result| 
         #logger.debug "Video ID's in loop: #{video_result[i]["id"]["$t"]}"
-        video_id =  video_result["id"]["$t"].delete("http://gdata.youtube.com/feeds/api/videos/")
+        video_id =  video_result["id"]["$t"].gsub("http://gdata.youtube.com/feeds/api/videos/", "")
           logger.debug "Parsing video_id: #{video_id}" 
         published = video_result["published"]["$t"]
           #logger.debug "published #{published}" 
         updated = video_result["updated"]["$t"]
           #logger.debug "updated #{updated}"
-        embed_url = video_result["link"][0]["href"]
+        embed_url = video_result["link"][0]["href"].gsub("&feature=youtube_gdata_player", "")
           #logger.debug "embed_url #{embed_url}"
         author_name = video_result["author"][0]["name"]["$t"]
           #logger.debug "author_name #{author_name}"
@@ -59,7 +60,7 @@ class YtSearchResult < ActiveRecord::Base
           #logger.debug "description #{description}"
         keywords = video_result["media$group"]["media$keywords"]
           #logger.debug "keywords #{keywords}"
-        player_url = video_result["media$group"]["media$player"][0]["url"]
+        player_url = video_result["media$group"]["media$player"][0]["url"].gsub("&feature=youtube_gdata_player", "")
           #logger.debug "player_url #{player_url}"
         thumbnails = video_result["media$group"]["media$thumbnail"][0]["url"]
           #logger.debug "thumbnails #{thumbnails}"
@@ -76,7 +77,10 @@ class YtSearchResult < ActiveRecord::Base
         #geo = video_result["georss$where"]["gml$Point"]["gml$pos"]["$t"]
           #logger.debug "geo #{geo}"
        
-            
+        #append embed code to embed url
+        embed_url = ActiveSupport::SafeBuffer.new('<iframe width="480" height="270" src="https://www.youtube.com/embed/'+ video_id + '?frameborder="0"allowfullscreen"></iframe>')
+        logger.debug "embed_url: #{embed_url}"
+
         #put individual results in an array
         single_search_data = Array.new
         single_search_data.push(

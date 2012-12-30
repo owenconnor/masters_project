@@ -1,3 +1,4 @@
+require 'sidekiq/web'
 YtSearch::Application.routes.draw do
   resources :searches
 
@@ -5,6 +6,8 @@ YtSearch::Application.routes.draw do
             get "/youtube_search/", to: "yt_search_results#youtube_search"
 
   resources :search_concepts
+
+  mount Sidekiq::Web, at: '/sidekiq'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

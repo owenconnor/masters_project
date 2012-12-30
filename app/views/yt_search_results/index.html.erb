@@ -2,21 +2,23 @@
     <div class="span3">
         <h3>Searches</h3>
         <ul class="nav nav-list">
-            <li class="nav-header">Current Searches</li>
-            <% @all_searches.each do |single_search| %>
-                <% if @search.id == single_search.id %>
-                    <li><%= link_to single_search.search_name, yt_search_results_path(:search_id => @search.id), :class =>"active" %>
-                        <span class="badge badge-info"><%= single_search.notification_count %></span>
-                        <% single_search.update_attributes(:notification_count => 0)%>
-                    </li>
-                <% else %>
-                     <li><%= link_to single_search.search_name, yt_search_results_path(:search_id => single_search.id) %></li>
-                     <span class="badge badge-info"><%= single_search.notification_count %></span>
-                     <% single_search.update_attributes(:notification_count => 0)%>
-                <% end %>
+            <li class="nav-header">Your Active Searches</li>
+            <% @active_searches.each do |active_search|%>
+              <% if @current_search == active_search.id%>
+                <li class="active"><%= link_to active_search.search_name, yt_search_results_path(:search_id => active_search.id)%></li>
+              <% else %>    
+                <li ><%= link_to active_search.search_name, yt_search_results_path(:search_id => active_search.id)%></li>
+              <% end %>
             <% end %>
-             <li class="divider"></li>
-             <li class="nav-header">Archived Searches</li>
+           
+
+            <li class="nav-header">Active Newsroom Searches</li>
+            <li><a href="#">Test One</a></li>
+            <li><a href="#">Test Two</a></li>
+            <li class="nav-header">Recent Searches</li>
+            <li><a href="#">Old one</a></li>
+            <li><a href="#">Old two</a></li>
+
         </ul>
     </div><!-- EO span3 -->
     <div class="span12">
@@ -39,27 +41,81 @@
                 </div><!-- EO btn-group -->
             </div><!-- EO filter-button -->
         </div>
-
-        
-       
-            <ul class="thumbnails">
+        <section id="content">
+            <div id="container" class="transitions-enabled infinite-scroll clearfix">
                 <% @yt_search_results.each do |yt_search_result| %>
-                <li class="span3" id="video_thumb_box">
-                    <a href="#" class="thumbnail">
-                    <%= image_tag("#{yt_search_result.thumbnails}", :height => '240', :width => '320') %>
-                    </a>
-                    <h6><%= yt_search_result.title %></h6>
-                    <h6>Published on <%= yt_search_result.published %> by <%=link_to "#{yt_search_result.author_name}", yt_search_result.author_url %> </h6>
-                    Filed in<%= yt_search_result.category %>
-                    <h6>Duration: <%= yt_search_result.duration %></h6>
-                    <h6>Viewcount: <%= yt_search_result.viewcount %></h6>
-                    <h6>Location: <%= yt_search_result.geo %></h6>
-                    <%= link_to "View", yt_search_result_path(yt_search_result.id), :class => 'btn btn-mini'%>
-                </li>
+                    <div class="box col1 masonry-brick">
+                        <div class="top-meta">
+                          <img src="images/icon_image.png" class="opacity"/>
+                          <span class="listtype"><%=link_to "#{yt_search_result.author_name}", yt_search_result.author_url %></span>
+                        </div>
+                        <h3><%= yt_search_result.title %></h3>
+                        <%= link_to image_tag(yt_search_result.thumbnails, :border => 0)%>
+                        <p>
+                            Description: 
+                        </p>
+                        <p> 
+                            <%= yt_search_result.description %>
+                        </p>
+                        <span class="mentioncount">300</span>
+                        <!-- Button to trigger modal -->
+                        <a href=<%= "#modal-#{yt_search_result.video_id}"%> role="button" class="btn" data-toggle="modal">Launch demo modal</a>
+                         
+                        <!-- Modal -->
+                        <div id=<%= "modal-#{yt_search_result.video_id}"%> class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3 id="myModalLabel"><%= yt_search_result.title %></h3>
+                          </div>
+                          <div class="modal-body">
+                            <%= yt_search_result.embed_url.html_safe %>
+                          </div>
+                          <div class="modal-footer">
+                            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                            <button class="btn btn-primary">Save changes</button>
+                          </div>
+                        </div>
+                        
+                    </div> <!-- EO box col1 masonry-brick -->
                 <% end %>
-            </ul>
-        
-
-            
+            </div><!-- EO container -->
+            <%= will_paginate @yt_search_results %>
+        </div> <!-- EO content -->    
     </div><!-- EO span9 -->
 </div> <!-- EO row -->
+<script>
+$(function(){
+    
+    var $container = $('#container');
+    
+    $container.imagesLoaded(function(){
+      $container.masonry({
+        itemSelector: '.box',
+        columnWidth: 5
+      });
+    });
+    
+    $container.infinitescroll({
+      navSelector  : '.pagination',    // selector for the paged navigation 
+      nextSelector : '.pagination a.next_page',  // selector for the NEXT link (to page 2)
+      itemSelector : '.box',     // selector for all items you'll retrieve
+      loading: {
+          finishedMsg: 'No more pages to load.',
+          img: 'http://i.imgur.com/6RMhx.gif'
+        }
+      },
+      // trigger Masonry as a callback
+      function( newElements ) {
+        // hide new items while they are loading
+        var $newElems = $( newElements ).css({ opacity: 0 });
+        // ensure that images load before adding to masonry layout
+        $newElems.imagesLoaded(function(){
+          // show elems now they're ready
+          $newElems.animate({ opacity: 1 });
+          $container.masonry( 'appended', $newElems, true ); 
+        });
+      }
+    );
+    
+  });
+</script>

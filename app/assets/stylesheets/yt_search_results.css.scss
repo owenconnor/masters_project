@@ -3,7 +3,7 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .video-description{
-	background-color: #ccc;
+	background-color: #fff;
 	padding:10px;
 }
 #filter-button{
@@ -12,9 +12,161 @@
 	padding-right:30px;
 }
 
-#video_thumb_box {
-	border:1px solid #cccccc;
-	-moz-border-radius: 15px;
-	border-radius: 15px;
-	padding:0px, 10px, 0px, 10px;
+/**** CSS Video display box ****/	
+
+.box {
+  margin: 5px;
+  padding: 30px;
+  background: #EBEBEB;
+  line-height: 1.4em;
+  float: left;
+  -webkit-border-radius: 8px;
+     -moz-border-radius: 8px;
+          border-radius: 8px;
 }
+
+
+.box img {
+  display: block;
+}
+
+
+.top-meta{overflow:hidden;}
+.top-meta img{float:left;}
+
+.opacity{opacity:0.5;}
+
+.listtype{
+	color:#979797;
+	font: 12px 'Helvetica Neue', Arial, sans-serif;
+	float:left;
+	padding:6px;
+	}
+
+.large-image{width:100%;}
+
+.mentioncount{
+	height:25px;
+	background-position-x: center;
+	color:white;
+	font-weight: bold;
+	margin:0;
+	padding:3px 10px 10px 10px;
+	background-image: url('../images/bubble_bg.png');
+	background-repeat: no-repeat;
+	text-align: center;
+	font: 11px 'Helvetica Neue', Arial, sans-serif;
+	font-weight: bold;
+	}
+
+/**** CSS for Masonry ****/	
+
+/**** Demos ****/
+
+#container {
+  padding: 5px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  clear: both;
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+}
+
+.centered { margin: 0 auto; }
+
+p {
+  padding: 1px 3px;
+  
+  font-size:  14px;
+}
+
+.col1 {width: 360px;}
+.col1 .thumb { max-width: 110px; float:left; margin:0 20px 20px 0;}
+
+.col2 {width: 300px; min-height:200px;}
+.col4 {width: 675px; min-height:200px; background-color: #c0eff0;}
+
+
+/**** Gutters ****/
+
+.has-gutters .box {
+  margin: 5px 0;
+}
+
+.has-gutters .col1 { width: 90px; }
+.has-gutters .col2 { width: 230px; }
+.has-gutters .col3 { width: 370px; }
+.has-gutters .col4 { width: 550px; }
+
+/**** Transitions ****/
+
+.transitions-enabled.masonry,
+.transitions-enabled.masonry .masonry-brick {
+  -webkit-transition-duration: 0.7s;
+     -moz-transition-duration: 0.7s;
+       -o-transition-duration: 0.7s;
+          transition-duration: 0.7s;
+}
+
+.transitions-enabled.masonry {
+  -webkit-transition-property: height, width;
+     -moz-transition-property: height, width;
+       -o-transition-property: height, width;
+          transition-property: height, width;
+}
+
+.transitions-enabled.masonry  .masonry-brick {
+  -webkit-transition-property: left, right, top;
+     -moz-transition-property: left, right, top;
+       -o-transition-property: left, right, top;
+          transition-property: left, right, top;
+}
+
+
+/* disable transitions on container */
+.transitions-enabled.infinite-scroll.masonry {
+  -webkit-transition-property: none;
+     -moz-transition-property: none;
+       -o-transition-property: none;
+          transition-property: none;
+}
+
+
+/* Infinite Scroll loader */
+#infscr-loading { 
+  text-align: center;
+  z-index: 100;
+  position: fixed;
+  left: 45%;
+  bottom: 40px;
+  width: 200px;
+  padding: 10px;
+  background: #000; 
+  opacity: 0.8;
+  color: #FFF;
+  -webkit-border-radius: 10px;
+     -moz-border-radius: 10px;
+          border-radius: 10px;
+}
+
+/**** Corner stamp ****/
+
+.corner-stamp {
+  width: 280px;
+  height: 340px;
+  padding: 10px;
+  margin: 10px;
+  float: right;
+  background: red;
+  color: white;
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+}
+
+
+/**** Clearfix ****/
+.clearfix:before, .clearfix:after { content: ""; display: table; }
+.clearfix:after { clear: both; }
+.clearfix { zoom: 1; }

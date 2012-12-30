@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121224001646) do
+ActiveRecord::Schema.define(:version => 20121228201132) do
 
   create_table "search_concepts", :force => true do |t|
     t.string   "name"
@@ -32,18 +32,19 @@ ActiveRecord::Schema.define(:version => 20121224001646) do
     t.string   "vicinity"
     t.string   "context_terms"
     t.string   "second_language"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
     t.string   "search_name"
     t.string   "date_range"
     t.integer  "notification_count"
+    t.boolean  "active_search",      :default => false
   end
 
   create_table "yt_search_results", :force => true do |t|
     t.date     "published"
     t.date     "updated"
     t.string   "title"
-    t.string   "description"
+    t.text     "description"
     t.string   "thumbnails"
     t.integer  "search_id"
     t.string   "embed_url"

@@ -5,7 +5,8 @@
   <%= f.input :date_range, :collection => @possible_date_ranges, :required => true %>
   <%= f.input :second_language, :collection => @languages %>
   <%= f.input :context_terms, :placeholder => 'Search terms comma separated' %>
-  <%=f.hidden_field :search_concept_id, :value => @search_concept_id %>
+   <%= f.input :active_search %>
+  <%=f.input :search_concept_id, :value => @search_concept_id %>
   <%= f.button :submit %>
 <% end %>
 

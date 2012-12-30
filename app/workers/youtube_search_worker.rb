@@ -2,6 +2,7 @@ class YoutubeSearchWorker
 	include Sidekiq::Worker
 
 	def perform(location_terms, combined_terms, search_id)
+		logger.debug "Starting Search for id: #{search_id}"
 		#create array for storing each record returned
 	    search_result = Array.new
 	    compiled_search_results = Array.new
