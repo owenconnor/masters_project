@@ -7,7 +7,7 @@ class YtSearchResult < ActiveRecord::Base
 
   	def self.get_location_search_terms(search_id)
       search = Search.find(search_id)
-	    location_context_terms = search.location + "," + search.vicinity
+	    location_context_terms = search.location #+ "," + search.vicinity
       location_context_terms.split(/[\s,]+/)
   	end
 
@@ -20,11 +20,11 @@ class YtSearchResult < ActiveRecord::Base
     end
 
     def self.translate_terms(terms, search_id)
-        @second_lang = Search.find(search_id).second_language
+        @second_lang = "arabic"#Search.find(search_id).second_language
         logger.debug "terms passed to model:#{terms}"
         translated_terms = Array.new
         terms.each do |term|
-          translated_terms.push(EasyTranslate.translate(term, :to => :arabic))
+          translated_terms.push(EasyTranslate.translate(term, :to => @second_lang)) #@second_lang.to_sym
         end
         logger.debug "translated_terms to be returned:#{translated_terms}"
         return translated_terms
@@ -68,15 +68,22 @@ class YtSearchResult < ActiveRecord::Base
           #logger.debug "title #{title}"
         duration = video_result["media$group"]["yt$duration"]["seconds"]
           #logger.debug "duration #{duration}"
-        #if video_result["yt$statistics"]["viewCount"] == nil
-        #  viewcount = "0"
-        #else
-          #viewcount = video_result["yt$statistics"]["viewCount"]
-        #end
-        #  logger.debug "viewcount #{viewcount}"
-        #geo = video_result["georss$where"]["gml$Point"]["gml$pos"]["$t"]
-          #logger.debug "geo #{geo}"
-       
+        if video_result.keys.include? "viewCount"
+          if video_result["yt$statistics"]["viewCount"] != nil
+              viewcount = video_result["yt$statistics"]["viewCount"]
+          end
+        else
+          viewcount = nil
+        end
+          logger.debug "viewcount #{viewcount}"
+        if video_result.keys.include? "georss$where"
+          geo = video_result["georss$where"]["gml$Point"]["gml$pos"]["$t"]
+          logger.debug "geo #{geo}"
+        else
+          geo = "No Geolocation"
+          logger.debug "geo #{geo}"
+        end
+
         #append embed code to embed url
         embed_url = ActiveSupport::SafeBuffer.new('<iframe width="480" height="270" src="https://www.youtube.com/embed/'+ video_id + '?frameborder="0"allowfullscreen"></iframe>')
         logger.debug "embed_url: #{embed_url}"
@@ -98,11 +105,11 @@ class YtSearchResult < ActiveRecord::Base
           title, 
           duration,
           search_id,
-          #viewcount 
-          #geo
+          viewcount, 
+          geo
           )
 
-        #logger.debug "single_search_data: #{single_search_data}"
+        logger.debug "geo var: #{geo}"
         
         old_video = all_previous_videos_ids.include?(video_id)
         logger.debug "Old Video?: #{old_video}"
@@ -121,10 +128,10 @@ class YtSearchResult < ActiveRecord::Base
       end
         logger.debug "All Results: #{all_search_results.count}"
         #YtSearchResult.write_results_to_db(all_search_results)
-
+        result_test = all_search_results[0]
+        logger.debug "Result15: #{result_test}"
         logger.debug "Results to write to DB: #{all_search_results.count}"
         all_search_results.each do |result|
-          logger.debug "Result: #{result[1]}"
           begin           
             yt_search_results = YtSearchResult.new
             #logger.debug "Result#{result[0]}"
@@ -144,9 +151,9 @@ class YtSearchResult < ActiveRecord::Base
                 :title => result[11], 
                 :duration => result[12],
                 :search_id => result[13],
-                :notify_new => true 
-                #:viewcount => result[14] 
-                #:geo => "01",
+                :notify_new => true, 
+                :viewcount => result[14], 
+                :geo => result[15]
               )
           rescue
             logger.debug "SQL insert failed at #{result}"  

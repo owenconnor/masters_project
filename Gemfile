@@ -26,6 +26,9 @@ gem 'simple_form'
 #for pagination
 gem 'will_paginate', '~> 3.0'
 
+#for geolocation lookups for give text locations
+gem 'geocoder'
+
 #Sidekiq is used for running background jobs in persistant search
 gem 'sidekiq'
 gem 'sinatra', require: false #enables the sidekiq web ui

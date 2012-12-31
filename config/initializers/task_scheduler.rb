@@ -24,6 +24,8 @@
 	    puts "#{individual_search.id}"
 	    puts "#{location_context_terms}"
 	    puts "#{combined_search_terms}"
+	    puts "Latitude:#{individual_search.latitude}"
+	    puts "Longitude:#{individual_search.longitude}"
 	    puts "----------------------------------"
 	    
 	    #sent to a sidekiq worker

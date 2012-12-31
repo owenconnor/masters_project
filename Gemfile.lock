@@ -60,6 +60,7 @@ GEM
     execjs (1.4.0)
       multi_json (~> 1.0)
     facter (1.6.16)
+    geocoder (1.1.6)
     hike (1.2.1)
     httparty (0.9.0)
       multi_json (~> 1.0)
@@ -167,6 +168,7 @@ DEPENDENCIES
   awesome_print
   coffee-rails (~> 3.2.1)
   easy_translate
+  geocoder
   httparty
   jquery-rails
   less-rails

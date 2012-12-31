@@ -33,13 +33,13 @@
               </button>
               <ul class="dropdown-menu">
                 <!-- dropdown menu links -->
-                <li>Uploader</li>
-                <li>Published</li>
-                <li>Geolocation</li>
-                <li>Ranking</li>
+                <li><i class="icon-user"></i>Uploader</li>
+                <li><i class="icon-calendar"></i>Published</li>
+                <li><i class="icon-globe"></i>Geolocation</li>
+                <li><i class="icon-bar-chart"></i>Ranking</li>
               </ul>
             </div>
-            </div><!-- EO filter-button -->
+          </div><!-- EO filter-button -->
         </div>
         <section id="content">
             <div id="container" class="transitions-enabled infinite-scroll clearfix">
@@ -84,11 +84,15 @@
                               </li>
                               <li>
                                 <a href="#" rel="tooltip" title="Viewcount Number">
-                                <i class="icon-eye-open"></i> Viewcount</a>
+                                <i class="icon-eye-open"></i><%= yt_search_result.viewcount%></a>
                               </li>
                               <li>
                                 <a href="#" rel="tooltip" title="Geolocation">
-                                <i class="icon-globe"></i>Geoloaction</a>
+                                <% if yt_search_result.geo == "No Geolocation" %>
+                                  <i class="icon-globe"></i>No Geo Data</a>
+                                <% else %>
+                                  <i class="icon-globe"></i> <%= link_to "View on Map", "http://maps.google.com/maps?&z=14&ll=39.211374,-82.978277"  %>
+                                <% end %>
                               </li>
                             </ul>
                           </div> <!-- EO video-meta -->
@@ -148,11 +152,11 @@
                               </li>
                               <li>
                                 <a href="#" rel="tooltip" title="Viewcount Number">
-                                  <i class="icon-eye-open"></i> Viewcount</a>
+                                  <i class="icon-eye-open"></i><%= yt_search_result.viewcount%></a>
                               </li>
                               <li>
                                 <a href="#" rel="tooltip" title="Geolocation">
-                                  <i class="icon-globe"></i>Geoloaction</a>
+                                  <i class="icon-globe"></i><%= yt_search_result.geo%></a>
                               </li>
                             </ul>
                           </div> <!-- EO video-meta -->

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121230214052) do
+ActiveRecord::Schema.define(:version => 20121231134133) do
 
   create_table "search_concepts", :force => true do |t|
     t.string   "name"
@@ -40,6 +40,8 @@ ActiveRecord::Schema.define(:version => 20121230214052) do
     t.boolean  "active_search",      :default => false
     t.string   "thumbnail"
     t.string   "geolocation"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   create_table "yt_search_results", :force => true do |t|
