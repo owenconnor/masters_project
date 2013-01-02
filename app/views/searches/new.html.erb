@@ -2,63 +2,45 @@
 
 
 		<div class="page-header">
-	  		<h1><%=t '.title', :default => t('helpers.titles.new', :model => model_class.model_name.human,
-	                                 :default => "New #{model_class.model_name.human}") %></h1>
+	  		<h1>Create Search</h1>
 		</div><!-- EO page-header -->
 <div class="row">
-		<div class="span6">
-			<h4>Enter Search Context</h4>
-			<%= render :partial => 'form' %>
-		</div>	
-		<div class="span6">
+		<div class="span8">
 			<h4>Event Types</h4>
 			<div class="tabbable">
   				<ul class="nav nav-tabs">
     				<li class="active"><a href="#pane1" data-toggle="tab">Event List</a></li>
-				    <li><a href="#pane2" data-toggle="tab">Event Cloud</a></li>
-				    <li><a href="#pane3" data-toggle="tab">Event Map</a></li>
+				    <li><a href="#pane2" data-toggle="tab">Context Data</a></li>
+				    <li><a href="#pane3" data-toggle="tab">Review Search</a></li>
 				</ul>
   				<div class="tab-content">
     				<div id="pane1" class="tab-pane active">
       					<h4>Select an Event</h4>
-      					<div class="well">
-      						<ul class="event-list">
-      							<% @search_concept.each do |concept|%>
-	      								<li>
-	      									<span class="concept-name">
-	      										<%= concept.name%>
-	      									</span>
-	      									<div class="concept-list-buttons"
-		      									<% if concept.has_children? == true %>
-		      									<span> 
-		      										<%= link_to "View Children", new_search_path(:list_parent_id => concept.id), :class => "btn"%></span>
-		      									<% else %>
-			      									<span>
-				      									<a href="#" id="show-terms" 
-				      									class="btn-small btn-primary" 
-				      									rel="popover" 
-				      									data-content= <%= concept.terms %>, <%= concept.terms %>
-				      									data-original-title=<%= concept.name + " Terms" %> >Show Terms</a>
-			      									</span>
-			      									<span>
-			      										<%= link_to "Select Terms", new_search_path(:search_concept_id => concept.id)%>
-			      									</span>
-			      								<% end %>
-		      								</div><!-- EO concept-list-buttons -->
-	      								</li>
-      							<% end %>
-      						</ul>
-      					</div><!-- EO well -->
-    				</div>
+      					<div class="event-list">
+	      					<ul>
+		      					<% @search_concept_items.each do |concept|%>
+				      				<%= link_to new_search_path(:get_children_of => concept.id) do %>
+					      				<li>
+					      					<span class="concept-name">
+					      						<%= concept.name%>
+					      					</span>
+					      				</li>
+				      				<% end %>
+		      					<% end %>
+	      					</ul>
+	      					</div> <!-- EO event-list -->
+    				</div><!-- EO pane1 -->
 				    <div id="pane2" class="tab-pane">
-				    <h4>Pane 2 Content</h4>
-				      <p> and so on ...</p>
+				    	<h4>Enter Search Context</h4>
+				    	<%= render :partial => 'form' %>
 				    </div>
 				    <div id="pane3" class="tab-pane">
-				      <h4>Pane 3 Content</h4>
+				     	<h4>Review Search</h4>
+				     	<p></p>
 				    </div>
 				  </div><!-- /.tab-content -->
 				</div><!-- /.tabbable -->
 		</div>
+		
 </div>
 

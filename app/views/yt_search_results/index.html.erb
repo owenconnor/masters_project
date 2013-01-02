@@ -17,7 +17,7 @@
             <li><a href="#">Test Two</a></li>
             <li class="nav-header">Recent Searches</li>
             <li><a href="#">Old one</a></li>
-            <li><a href="#">Old two</a></li>
+            <li><a href="#">Old two</a><%= @sort_by %></li>
 
         </ul>
     </div><!-- EO span3 -->
@@ -33,10 +33,10 @@
               </button>
               <ul class="dropdown-menu">
                 <!-- dropdown menu links -->
-                <li><i class="icon-user"></i>Uploader</li>
-                <li><i class="icon-calendar"></i>Published</li>
-                <li><i class="icon-globe"></i>Geolocation</li>
-                <li><i class="icon-bar-chart"></i>Ranking</li>
+                <li><i class="icon-user"></i><%= link_to "Uploader", yt_search_results_path(:search_id => @search.id, :sort_by => "uploader") %></li>
+                <li><i class="icon-calendar"></i><%= link_to "Published", yt_search_results_path(:search_id => @search.id, :sort_by => "published") %></li>
+                <li><i class="icon-globe"></i><%= link_to "Geolocation", yt_search_results_path(:search_id => @search.id, :sort_by => "geo") %></li>
+                <li><i class="icon-bar-chart"></i><%= link_to "Ranking", yt_search_results_path(:search_id => @search.id, :sort_by => "ranking") %></li>
               </ul>
             </div>
           </div><!-- EO filter-button -->

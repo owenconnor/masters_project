@@ -2,25 +2,42 @@ class YtSearchResultsController < ApplicationController
   # GET /yt_search_results
   # GET /yt_search_results.json
   def index
-    if params[:search_id].blank? == true
-      @yt_search_results = YtSearchResult.all
-      #please select a search to view 
-    else
-      @yt_search_results = YtSearchResult.where(:search_id => params[:search_id])
+    #Check if a sort option has been selected, otherwise show the new results
+    if params.has_key?(:sort_by)
+      case params[:sort_by]
+        when "uploader"
+          @sort_by = "author_name"
+        when "published"
+          @sort_by = "published"
+        when "geo"
+          @sort_by = "geo"
+        when "ranking"
+          # send to ranking
+        else
+          @sort_by = "notify_new"
+        end
+    end
+
+    #check for search id param and return results based on that id
+    if params.has_key?(:search_id)
+      #Get correct search details and order by the requested sort option if it exists
+      @yt_search_results = YtSearchResult.where(:search_id => params[:search_id]).order(@sort_by)
+      #paginate pages using will_paginate gem
       if params[:page].blank? == true
         @yt_search_results = @yt_search_results.paginate(:page => 1, :per_page => 10)
       else
         @yt_search_results = @yt_search_results.paginate(:page => params[:page], :per_page => 10)
       end
       @notify_new = YtSearchResult.where(:search_id => params[:search_id], :notify_new => true)
+      #Get id of current search to show as active in nav menu
       @current_search = params[:search_id].to_i
+    else
+      redirect_to searches_path notice: 'There is no search with that ID. Please select one from below.'
     end
 
     @new_results = YtSearchResult.where(:search_id => params[:search_id], :notify_new => true)
-
-    @search = Search.find(params[:search_id])
+    
     @active_searches = Search.where(:active_search => true)
-
 
     update_notifications = @notify_new
     logger.debug "notify_new: :#{@notify_new.count}"

@@ -31,20 +31,19 @@ class SearchesController < ApplicationController
   # GET /searches/new.json
   def new
     @search = Search.new#(:search_concept_id => params[:concept_id])
-    if params[:list_parent_id].blank? == false
-      @search_concept = SearchConcept.children_of(params[:list_parent_id])
-    elsif params[:show_parent_id].blank? == false
-      @search_concept = SearchConcept.find(params[:show_parent_id])
+    @search_concept_roots = SearchConcept.roots
+
+    if params.has_key?(:get_children_of)
+      @search_concept_items = SearchConcept.children_of(params[:get_children_of])
     else
-      @search_concept = SearchConcept.roots
+       @search_concept_items = SearchConcept.roots
     end
 
     @search_concept_id = params[:search_concept_id]
 
-
     EasyTranslate.api_key = 'AIzaSyCJ1HG7J7kKOJXaqaw2Cpgcc_W1kawYUbw'
     @languages = Array.new
-    @languages = EasyTranslate.translations_available
+    @languages = ["Arabic", "French", "German", "Spanish"]
     logger.debug "@languages: #{@languages}"
     @possible_date_ranges = ["Today", "This Week", "This Month"]
 
