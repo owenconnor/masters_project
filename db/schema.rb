@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121231134133) do
+ActiveRecord::Schema.define(:version => 20130104152011) do
+
+  create_table "authors", :force => true do |t|
+    t.string   "author_name"
+    t.string   "author_url"
+    t.integer  "trusted_uploader_rank", :default => 0
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
+  end
 
   create_table "search_concepts", :force => true do |t|
     t.string   "name"
@@ -29,7 +37,6 @@ ActiveRecord::Schema.define(:version => 20121231134133) do
   create_table "searches", :force => true do |t|
     t.string   "search_concept_id"
     t.string   "location"
-    t.string   "vicinity"
     t.string   "context_terms"
     t.string   "second_language"
     t.datetime "created_at",                            :null => false
@@ -60,10 +67,16 @@ ActiveRecord::Schema.define(:version => 20121231134133) do
     t.integer  "duration"
     t.integer  "viewcount"
     t.string   "geo"
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
     t.string   "video_id"
-    t.boolean  "notify_new",  :default => false
+    t.boolean  "notify_new",            :default => false
+    t.integer  "author_id"
+    t.integer  "geo_rank"
+    t.integer  "search_terms_rank"
+    t.integer  "location_mention_rank"
+    t.integer  "trusted_uploader_rank"
+    t.integer  "ahp_rank"
   end
 
   add_index "yt_search_results", ["video_id"], :name => "index_yt_search_results_on_video_id", :unique => true

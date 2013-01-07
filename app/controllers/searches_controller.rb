@@ -30,16 +30,24 @@ class SearchesController < ApplicationController
   # GET /searches/new
   # GET /searches/new.json
   def new
-    @search = Search.new#(:search_concept_id => params[:concept_id])
+    if Search.find(params[:search_id]) != nil
+      @search = Search.find(params[:search_id])
+    else
+      @search = Search.new(:search_concept_id => params[:search_concept_id])
+    end
+
     @search_concept_roots = SearchConcept.roots
 
     if params.has_key?(:get_children_of)
       @search_concept_items = SearchConcept.children_of(params[:get_children_of])
+      @ancestors = SearchConcept.find(params[:get_children_of]).ancestor_ids
     else
        @search_concept_items = SearchConcept.roots
     end
 
     @search_concept_id = params[:search_concept_id]
+
+
 
     EasyTranslate.api_key = 'AIzaSyCJ1HG7J7kKOJXaqaw2Cpgcc_W1kawYUbw'
     @languages = Array.new
@@ -65,7 +73,7 @@ class SearchesController < ApplicationController
 
     respond_to do |format|
       if @search.save
-        format.html { redirect_to @search, notice: 'Search was successfully created.' }
+        format.html { redirect_to new_search_path(:pane => 'pane3', :search_id => @search.id) }
         format.json { render json: @search, status: :created, location: @search }
       else
         format.html { render action: "new" }

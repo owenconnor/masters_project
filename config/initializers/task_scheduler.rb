@@ -1,7 +1,7 @@
- require 'rufus/scheduler'
- scheduler = Rufus::Scheduler.start_new
+require 'rufus/scheduler'
+scheduler = Rufus::Scheduler.start_new
 
- scheduler.every '30s' do
+scheduler.every '10m' do
 
     puts "Running Persistant Scheduled Searches!" 
     #Get all active searchs
@@ -18,6 +18,8 @@
 	    
 	    combined_search_terms |= translated_terms
 
+	    individual_search.update_attributes(:context_terms => @combined_search_terms)
+
 	    puts "----------------------------------"
 	    puts "Details for this active Search"
 	    puts "#{individual_search.search_name}"
@@ -32,4 +34,11 @@
 	    YoutubeSearchWorker.perform_async(location_context_terms,combined_search_terms, individual_search.id)
 	end
 	puts "Finished Rufus Scheduled Searches!"
+end
+
+scheduler.every '2m' do
+
+    puts "Ranking Videos using AHP!" 
+        RankVideosWorker.perform_async
+	puts "Finished Ranking Videos!"
 end

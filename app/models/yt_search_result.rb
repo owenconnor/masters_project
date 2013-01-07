@@ -1,6 +1,7 @@
 # encoding: utf-8
 class YtSearchResult < ActiveRecord::Base
-  	attr_accessible :author_name, :author_url, :category, :description, :duration, :embed_url, :geo, :id, :keywords, :player_url, :published, :search_id, :thumbnails, :title, :updated, :viewcount, :video_id, :notify_new
+    belongs_to :author
+  	attr_accessible :author_name, :author_url, :category, :description, :duration, :embed_url, :geo, :id, :keywords, :player_url, :published, :search_id, :thumbnails, :title, :updated, :viewcount, :video_id, :notify_new,:geo_rank, :search_terms_rank, :location_mention_rank, :trusted_uploader_rank
     EasyTranslate.api_key = 'AIzaSyCJ1HG7J7kKOJXaqaw2Cpgcc_W1kawYUbw'
     #self.per_page = 10
 
@@ -15,8 +16,13 @@ class YtSearchResult < ActiveRecord::Base
       search = Search.find(search_id)
       predefined_terms = SearchConcept.find(search.search_concept_id).terms
       context_terms = Search.find(search.id).context_terms
-      combined_search_terms = predefined_terms + "," + context_terms
-      combined_search_terms.split(/[\s,]+/)
+      if context_terms == nil
+        combined_search_terms = predefined_terms
+        combined_search_terms.split(/[\s,]+/)
+      else
+        combined_search_terms = predefined_terms + "," + context_terms
+        combined_search_terms.split(/[\s,]+/)
+      end
     end
 
     def self.translate_terms(terms, search_id)
@@ -52,7 +58,7 @@ class YtSearchResult < ActiveRecord::Base
           #logger.debug "embed_url #{embed_url}"
         author_name = video_result["author"][0]["name"]["$t"]
           #logger.debug "author_name #{author_name}"
-        author_url = video_result["author"][0]["uri"]["$t"]
+        author_url = video_result["author"][0]["uri"]["$t"].gsub("https://gdata.youtube.com/feeds/api/users/", "https://www.youtube.com/user/")
           #logger.debug "author_url #{author_url}"
         category = video_result["media$group"]["media$category"][0]["label"]
           #logger.debug "category #{category}"
@@ -155,6 +161,8 @@ class YtSearchResult < ActiveRecord::Base
                 :viewcount => result[14], 
                 :geo => result[15]
               )
+            Author.new(:author_name => result[4], :author_url => result[5])
+
           rescue
             logger.debug "SQL insert failed at #{result}"  
           end            

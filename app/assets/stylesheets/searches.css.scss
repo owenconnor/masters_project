@@ -18,6 +18,7 @@
 
 .event-list {
 	display:inline-block;
+	margin-left:20px;
 	
 }
 
@@ -26,7 +27,7 @@
 	padding: 0px;
 	margin-left: 20px;
 	height:300px;
-	width:200px;
+	width:300px;
 	overflow-y:scroll;
 	display:inline-block;
 	
@@ -34,11 +35,26 @@
 
 .event-list li {
 	display:block;
-	background-color:#4F4F4F;
+	background-color:#E0E0E0;
 	border-style:solid;
 	border-width:0.05em;
 	border-bottom-style:none;
 	height:30px;
-	padding:5px;
+	padding-top:10px;
+	padding-left:20px;
 	
+}
+
+.tabs-container{
+	margin:20px;
+	-webkit-scrollbar{width:9px;height:9px;}
+	-webkit-scrollbar-button:start:decrement,#doc ::-webkit-scrollbar-button:end:increment{display:block;height:0;background-color:transparent;}
+	-webkit-scrollbar-track-piece{background-color:#FAFAFA;-webkit-border-radius:0;-webkit-border-bottom-right-radius:8px;-webkit-border-bottom-left-radius:8px;}
+	-webkit-scrollbar-thumb:vertical{height:50px;background-color:#999;-webkit-border-radius:8px;}
+	-webkit-scrollbar-thumb:horizontal{width:50px;background-color:#999;-webkit-border-radius:8px;}
+}
+
+.select-option{
+	float:right;
+	color:#772953;
 }

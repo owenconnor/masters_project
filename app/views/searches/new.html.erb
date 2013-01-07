@@ -1,45 +1,80 @@
-<%- model_class = Search -%>
-
-
-		<div class="page-header">
-	  		<h1>Create Search</h1>
-		</div><!-- EO page-header -->
+<div class="page-header">
+	<h1>Create Search</h1>
+</div><!-- EO page-header -->
 <div class="row">
-		<div class="span8">
+	<div class="span2"></div>
+			<div class="span6">
 			<h4>Event Types</h4>
-			<div class="tabbable">
-  				<ul class="nav nav-tabs">
-    				<li class="active"><a href="#pane1" data-toggle="tab">Event List</a></li>
-				    <li><a href="#pane2" data-toggle="tab">Context Data</a></li>
-				    <li><a href="#pane3" data-toggle="tab">Review Search</a></li>
-				</ul>
-  				<div class="tab-content">
-    				<div id="pane1" class="tab-pane active">
-      					<h4>Select an Event</h4>
-      					<div class="event-list">
-	      					<ul>
-		      					<% @search_concept_items.each do |concept|%>
-				      				<%= link_to new_search_path(:get_children_of => concept.id) do %>
-					      				<li>
-					      					<span class="concept-name">
-					      						<%= concept.name%>
-					      					</span>
-					      				</li>
-				      				<% end %>
-		      					<% end %>
-	      					</ul>
-	      					</div> <!-- EO event-list -->
-    				</div><!-- EO pane1 -->
-				    <div id="pane2" class="tab-pane">
-				    	<h4>Enter Search Context</h4>
-				    	<%= render :partial => 'form' %>
-				    </div>
-				    <div id="pane3" class="tab-pane">
-				     	<h4>Review Search</h4>
-				     	<p></p>
-				    </div>
-				  </div><!-- /.tab-content -->
-				</div><!-- /.tabbable -->
+			<div class="tabs-container">
+				<div class="tabbable">
+	  				<ul class="nav nav-tabs">
+	    				<li class="<%= 'active' if params[:pane] == 'pane1'|| !params[:pane] %>"><a href="#pane1" data-toggle="tab">Event List</a></li>
+					    <li class="<%= 'active' if params[:pane] == 'pane2' %>"><a href="#pane2" data-toggle="tab">Context Data</a></li>
+					    <li class="<%= 'active' if params[:pane] == 'pane3' %>"><a href="#pane3" data-toggle="tab">Review Search</a></li>
+					</ul>
+	  				<div class="tab-content">
+	    				<div id="pane1" class="<%= if (params[:pane] == 'pane1' || !params[:pane])then 'tab-pane active'  else 'tab-pane' end%>">
+	      					<h4>Step 1 - Select an Event Type</h4>
+	      					<div>
+	      						<%= @ancestors %>
+	      					</div>
+	      					<div class="event-list">
+		      					<ul>
+			      					<% @search_concept_items.each do |concept| %>
+				      					<% if concept.is_childless? == false %>
+				      						
+				      						<%= link_to new_search_path(:get_children_of => concept.id) do %>
+								      			<li>
+								      				<span class="concept-name">
+								      					<%= concept.name%>
+								      				</span>
+								      				<span class="select-option">
+								      				Children<i class="icon-search"></i>
+								      				</span><!-- EO select-option -->
+								      			</li>
+								      		<% end %>
+								      		<% next %>
+				      					<% else %>
+				      						<%= link_to new_search_path(:search_concept_id => concept.id, :pane => "pane2") do %>
+							      				<li>
+							      					<span class="concept-name">
+							      						<%= concept.name%>
+							      					</span>
+							      					<span class="select-option">
+							      						Select<i class="icon-chevron-right"></i>
+							      					</span><!-- EO select-option -->
+							      				</li>
+					      					<% end %>
+						      			<% end %>
+			      					<% end %>
+		      					</ul>
+		      					</div> <!-- EO event-list -->
+	    				</div><!-- EO pane1 -->
+	    				
+					    	<div id="pane2" class="<%= if params[:pane] == 'pane2' then 'tab-pane active'  else 'tab-pane' end%>">
+					    	<h4>Step 2 - Enter Search Context</h4>
+					    	<%= render :partial => 'form' %>
+					    </div>
+					    <div id="pane3" class="<%= if params[:pane] == 'pane3' then 'tab-pane active'  else 'tab-pane' end%>">
+					     	<h4>Step 3 - Review Search</h4>
+					     	    <ul class="thumbnails">
+									<li class="span5">
+								    	<div class="thumbnail">
+									    	<img src="http://maps.google.com/maps/api/staticmap?size=320x260&maptype=roadmap&sensor=false&zoom=14&markers=color:pink|label:Search-Geo|<%= @search.latitude %>, <%= @search.longitude %>"></img>
+									    	<h3><%= @search.search_name %></h3>
+									    	<p><%= @search.context_terms %></p>
+									    	<div class="action-buttons">
+                    <%= link_to "Edit Search", edit_search_path(@search.id), :class => "btn btn-small btn-primary"%>  
+                    <%= link_to "View Results", yt_search_results_path(:search_id => @search.id), :class => "btn btn-small btn-info"%>
+                    </div><!-- EO action-buttons --> 
+								    	</div>
+									</li>
+								</ul>
+					     	<p></p>
+					    </div>
+					  </div><!-- /.tab-content -->
+					</div><!-- /.tabbable -->
+				<div> <!-- EO tab-container -->
 		</div>
 		
 </div>

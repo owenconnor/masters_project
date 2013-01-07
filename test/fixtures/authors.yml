@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  author_name: MyString
+  author_url: MyString
+  trusted_uploader_rank: 1
+
+two:
+  author_name: MyString
+  author_url: MyString
+  trusted_uploader_rank: 1

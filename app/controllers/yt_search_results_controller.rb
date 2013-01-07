@@ -39,6 +39,8 @@ class YtSearchResultsController < ApplicationController
     
     @active_searches = Search.where(:active_search => true)
 
+    @search = Search.find(@current_search)
+
     update_notifications = @notify_new
     logger.debug "notify_new: :#{@notify_new.count}"
     logger.debug "update_notifications: :#{update_notifications.count}"
