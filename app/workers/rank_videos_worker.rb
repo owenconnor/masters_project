@@ -19,13 +19,15 @@ class RankVideosWorker
 
 			#Iterate over the terms seeing how often they occur
 			context_term_current_score = 0
+			#puts "context_terms"
+			#puts search.context_terms
 			if search.context_terms == "" || nil
 				title_score = 0
 			else
+
 				search.context_terms.split(",").each do |context_term|
-					logger.debug "context_term: #{context_term}"
+				#	logger.debug "context_term: #{context_term}"
 					occurence = video.title.scan(/#{context_term}/).length
-					puts occurence
 					context_term_freqeuncy = video.title.scan(/#{context_term}/).length
 					context_term_current_score = context_term_current_score.to_i + context_term_freqeuncy.to_i
 				end
@@ -38,7 +40,8 @@ class RankVideosWorker
 				#Return a score ranked by where they appear and if they are concept terms or context terms
 				#context being more important then concept 
 				title_score = (concept_term_current_score*3) + (context_term_current_score*4)
-				logger.debug "title_score:#{title_score}"
+				#logger.debug "title_score:#{title_score}"
+				#puts title_score
 			end
 
 
@@ -55,11 +58,10 @@ class RankVideosWorker
 			end 
 
 			#Assign uploader rank based on a scorce gived by users
-			uploader_rank = 0#Author.find_by_author_name(video.author_name).trusted_uploader_rank
-			
-			video.update_attributes(:geo_rank => geo_score, :search_terms_rank => title_score, :location_mention_rank => location_term_current_score, :trusted_uploader_rank => uploader_rank)
-
+			#puts video.author_name
+			uploader_rank = Author.find_by_author_name("#{video.author_name}")
+			#puts uploader_rank.trusted_uploader_rank
+			video.update_attributes(:geo_rank => geo_score, :search_terms_rank => title_score, :location_mention_rank => location_term_current_score, :trusted_uploader_rank => uploader_rank.trusted_uploader_rank)
 		end
-
 	end
 end

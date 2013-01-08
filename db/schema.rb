@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130104152011) do
+ActiveRecord::Schema.define(:version => 20130107211614) do
 
   create_table "authors", :force => true do |t|
     t.string   "author_name"
@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(:version => 20130104152011) do
     t.datetime "created_at",                           :null => false
     t.datetime "updated_at",                           :null => false
   end
+
+  add_index "authors", ["author_url"], :name => "index_authors_on_author_url", :unique => true
 
   create_table "search_concepts", :force => true do |t|
     t.string   "name"

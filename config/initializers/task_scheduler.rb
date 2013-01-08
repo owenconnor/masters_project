@@ -18,7 +18,7 @@ scheduler.every '10m' do
 	    
 	    combined_search_terms |= translated_terms
 
-	    individual_search.update_attributes(:context_terms => @combined_search_terms)
+	    #individual_search.update_attributes(:context_terms => combined_search_terms)
 
 	    puts "----------------------------------"
 	    puts "Details for this active Search"
@@ -36,9 +36,14 @@ scheduler.every '10m' do
 	puts "Finished Rufus Scheduled Searches!"
 end
 
-scheduler.every '2m' do
-
-    puts "Ranking Videos using AHP!" 
+scheduler.every '10m' do
+    puts "Ranking Videos by each category!" 
         RankVideosWorker.perform_async
-	puts "Finished Ranking Videos!"
+	puts "Finished Ranking Videos by each category!"
+end
+
+scheduler.every '2m' do
+    puts "Ranking Videos using AHP!" 
+        GenerateAhpRankingWorker.perform_async
+	puts "Finished Ranking Videos by AHP!"
 end

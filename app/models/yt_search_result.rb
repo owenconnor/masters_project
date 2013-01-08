@@ -45,6 +45,8 @@ class YtSearchResult < ActiveRecord::Base
       
       all_search_results = Array.new
       all_previous_videos_ids = YtSearchResult.select(:video_id).map {|v| v.video_id}
+      all_previous_authors = Author.select(:author_url).map {|a| a.author_url}
+      logger.debug "all_previous_authors: #{all_previous_authors}"
 
       search_results.each do |video_result| 
         #logger.debug "Video ID's in loop: #{video_result[i]["id"]["$t"]}"
@@ -114,9 +116,7 @@ class YtSearchResult < ActiveRecord::Base
           viewcount, 
           geo
           )
-
-        logger.debug "geo var: #{geo}"
-        
+        #dedupe against videos already in db
         old_video = all_previous_videos_ids.include?(video_id)
         logger.debug "Old Video?: #{old_video}"
 
@@ -125,12 +125,19 @@ class YtSearchResult < ActiveRecord::Base
           all_search_results.push(single_search_data)
           logger.debug "Result not a dupe"
         else
-          logger.debug "Duplicate found and not added"
+          logger.debug "Duplicate video found and not added"
         end
-        
-        
-        
 
+        #dedupe against authors already in db
+        existing_author = all_previous_authors.include?(author_url)
+        logger.debug "existing_author?: #{existing_author}"
+        if existing_author == false
+          author =  Author.new
+          author.update_attributes(:author_name => author_name, :author_url => author_url) 
+          logger.debug "Author is not a dupe"
+        else
+          logger.debug "Duplicate author found and not added"
+        end
       end
         logger.debug "All Results: #{all_search_results.count}"
         #YtSearchResult.write_results_to_db(all_search_results)
@@ -161,11 +168,9 @@ class YtSearchResult < ActiveRecord::Base
                 :viewcount => result[14], 
                 :geo => result[15]
               )
-            Author.new(:author_name => result[4], :author_url => result[5])
-
           rescue
             logger.debug "SQL insert failed at #{result}"  
-          end            
+          end 
         end  
         all_searches = Search.all
         logger.debug "all_searches #{all_searches}"  
@@ -175,11 +180,6 @@ class YtSearchResult < ActiveRecord::Base
           logger.debug "notification_count #{notification_count}"  
           notify_search.update_attributes(:notification_count => notification_count)
         end
-
     end
-
-    def self.write_results_to_db(search_results)
-      
-    end
-  end
+end
 
