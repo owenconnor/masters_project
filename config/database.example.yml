@@ -1,0 +1,29 @@
+#Initial sqlite3 setup
+#development:
+#  adapter: sqlite3
+#  database: db/development.sqlite3
+#  pool: 5
+#  timeout: 20000
+
+#Migration to Postgres
+development:
+  adapter: postgresql
+  endcoding: unicode
+  database: ytsearch_development
+  pool: 90
+  username: owen
+  password: 
+
+test:
+  adapter: postgresql
+  endcoding: unicode
+  database: ytsearch_development
+  pool: 90
+  username: owen
+  password: 
+
+#production:
+#  adapter: sqlite3
+#  database: db/production.sqlite3
+#  pool: 5
+#  timeout: 5000
