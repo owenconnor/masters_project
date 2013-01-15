@@ -17,6 +17,8 @@ gem 'httparty'
 #gem for tree based assoc for Search Term Taxonomy
 gem 'ancestry'
 
+gem 'devise'
+
 #used for translation
 gem 'easy_translate'
 

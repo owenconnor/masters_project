@@ -1,5 +1,9 @@
 require 'sidekiq/web'
 YtSearch::Application.routes.draw do
+  root :to => "searches#index"
+
+  devise_for :users
+
   resources :searches
             get "/stop_search/", to: "searches#stop_search"
             get "/start_search/", to: "searches#start_search"
