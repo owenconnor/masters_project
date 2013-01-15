@@ -3,6 +3,9 @@
         <h3>Searches</h3>
         <ul class="nav nav-list">
             <li class="nav-header">Your Active Searches</li>
+            <%if @search_status == "Search is Inactive"%>
+              <li>No Active Searches</li>
+            <% end %>
             <% @active_searches.each do |active_search|%>
               <% if @current_search == active_search.id%>
                 <li class="active"><%= link_to active_search.search_name, yt_search_results_path(:search_id => active_search.id)%></li>
@@ -24,7 +27,13 @@
     <div class="span12">
         <h1><%= @search.search_name %></h1>
         <h5>Created by Owen Connor on <%= @search.created_at.strftime("%d %b %H:%M") %></h5>
+        <span><%= @search_status %></span>
         <div class="span11">
+          <% if @search.active_search == true%>
+            <%= link_to "Stop Search", stop_search_results_path(:id => @search.id), :class => "btn btn-small btn-warning"%>
+          <% else %>
+            <%= link_to "Start Search", start_search_results_path(:id => @search.id), :class => "btn btn-small btn-success"%>
+          <% end %>
           <div id="filter-button">
             <div class="btn-group">
               <button class="btn">Sort By</button>
@@ -71,7 +80,8 @@
                               </li>
                               <li>
                                 <a href="#" rel="tooltip" title="Youtube Uploader">
-                                <i class="icon-user"></i><%= yt_search_result.author_name %></a>
+
+                                <i class="icon-user"></i><%= link_to yt_search_result.author_name,yt_search_result.author_url  %></a>
                               </li>
                             </ul>
                           </div> <!-- EO video-meta -->
@@ -89,9 +99,9 @@
                               <li>
                                 <a href="#" rel="tooltip" title="Geolocation">
                                 <% if yt_search_result.geo == "No Geolocation" %>
-                                  <i class="icon-globe"></i>No Geo Data</a>
+                                  <i class="icon-globe"></i><%= yt_search_result.geo %></a>
                                 <% else %>
-                                  <i class="icon-globe"></i> <%= link_to "View on Map", "http://maps.google.com/maps?&z=14&ll=39.211374,-82.978277"  %>
+                                  <i class="icon-globe"></i> <%= link_to "View on Map", "http://maps.google.com/maps?&z=14&q=#{yt_search_result.geo.sub(" ","%2C")}"  %>
                                 <% end %>
                               </li>
                             </ul>

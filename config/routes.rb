@@ -1,9 +1,13 @@
 require 'sidekiq/web'
 YtSearch::Application.routes.draw do
   resources :searches
+            get "/stop_search/", to: "searches#stop_search"
+            get "/start_search/", to: "searches#start_search"
 
   resources :yt_search_results
             get "/youtube_search/", to: "yt_search_results#youtube_search"
+            get "/stop_search_results/", to: "yt_search_results#stop_search_results"
+            get "/start_search_results", to: "yt_search_results#start_search_results"
 
   resources :search_concepts
 

@@ -13,35 +13,87 @@
         </ul>
           <div class="tab-content">
             <div id="pane1" class="tab-pane active">
+              <h4>Your Searches</h4>
               <ul class="thumbnails">
               <% @searches.each do |search| %>
                 <li class="span4">
                   <div class="search-container">
                     <%= link_to image_tag(search.thumbnail, :border => 0), search_path(search.id)  %>
-                    <h4><%= search.search_name %></h4>
-                    <span class="badge badge-info"><%= search.notification_count%></span>
+                    <h4><%= search.search_name %> <span class="badge badge-info"><%= search.notification_count%></span></h4>
+                    
                     <h6>Search Details</h6>
                     <div class="search-details">
-                      <span>Created by Owen Connor at <%= search.created_at.strftime("%d %b %H:%M")%>  </span>
-                      <span>Location:<%= search.location%></span>
-                      <span>Geolocation:<%= search.geolocation%></span>
-                      <span>Second Language:<%= search.geolocation%></span>
-                      <span>Terms:<%= search.context_terms%></span>
+                      <span class="label">Created by Owen Connor at <%= search.created_at.strftime("%d %b %H:%M")%>  </span>
+                      <% if search.active_search == true%>
+                        <span class="label">Status: Active</span>
+                      <% else %>
+                      <span class="label">Status: Inactive</span>
+                      <% end %>
+                      <span class="label">Location: <%= search.location%></span>
+                      <% if search.geolocation == nil || ""%>
+                        <span class="label">Geolocation: None Available</span>
+                        <% else %>
+                      <span class="label">Geolocation:  <%= search.geolocation %></span>
+                      <% end %>
+                      <span class="label">Second Language: <%= search.second_language %></span>
+                      <span class="label">Terms: <%= search.context_terms%></span>
                     </div><!-- EO search-details -->
                     <div class="action-buttons">
-                    <%= link_to "Edit Search", edit_search_path(search.id), :class => "btn btn-small btn-primary"%>  
-                    <%= link_to "View Results", yt_search_results_path(:search_id => search.id), :class => "btn btn-small btn-info"%>
+                      <% if search.active_search == true%>
+                        <%= link_to "Stop Search", stop_search_path(:id => search.id), :class => "btn btn-mini btn-warning"%>
+                      <% else %>
+                        <%= link_to "Start Search", start_search_path(:id => search.id), :class => "btn btn-mini btn-warning"%>
+                      <% end %> 
+                      <%= link_to "Edit Search", edit_search_path(search.id), :class => "btn btn-mini btn-primary"%>  
+                      <%= link_to "View Results", yt_search_results_path(:search_id => search.id), :class => "btn btn-mini btn-info"%>
                     </div><!-- EO action-buttons --> 
                   </div><!-- EO search-border -->
                 </li>
               <% end %>
             </ul> 
 
-            </div>
+            </div><!-- EO pane -->
             <div id="pane2" class="tab-pane">
-            <h4>Pane 2 Content</h4>
-              <p> and so on ...</p>
-            </div>
+            <h4>Newsroom Searches</h4>
+             <ul class="thumbnails">
+              <% @searches.each do |search| %>
+                <li class="span4">
+                  <div class="search-container">
+                    <%= link_to image_tag(search.thumbnail, :border => 0), search_path(search.id)  %>
+                    <h4><%= search.search_name %> <span class="badge badge-info"><%= search.notification_count%></span></h4>
+                    
+                    <h6>Search Details</h6>
+                    <div class="search-details">
+                      <span class="label">Created by Owen Connor at <%= search.created_at.strftime("%d %b %H:%M")%>  </span>
+                      <% if search.active_search == true%>
+                        <span class="label">Status: Active</span>
+                      <% else %>
+                      <span class="label">Status: Inactive</span>
+                      <% end %>
+                      <span class="label">Location: <%= search.location%></span>
+                      <% if search.geolocation == nil || ""%>
+                        <span class="label">Geolocation: None Available</span>
+                        <% else %>
+                      <span class="label">Geolocation:  <%= search.geolocation %></span>
+                      <% end %>
+                      <span class="label">Second Language: <%= search.second_language %></span>
+                      <span class="label">Terms: <%= search.context_terms%></span>
+                    </div><!-- EO search-details -->
+                    <div class="action-buttons">
+                      <% if search.active_search == true%>
+                        <%= link_to "Stop Search", stop_search_path(:id => search.id), :class => "btn btn-mini btn-warning"%>
+                      <% else %>
+                        <%= link_to "Start Search", start_search_path(:id => search.id), :class => "btn btn-mini btn-warning"%>
+                      <% end %> 
+                      <%= link_to "Edit Search", edit_search_path(search.id), :class => "btn btn-mini btn-primary"%>  
+                      <%= link_to "View Results", yt_search_results_path(:search_id => search.id), :class => "btn btn-mini btn-info"%>
+                    </div><!-- EO action-buttons --> 
+                  </div><!-- EO search-border -->
+                </li>
+              <% end %>
+            </ul> 
+
+            </div><!-- EO pane -->
             <div id="pane3" class="tab-pane">
               <h4>Pane 3 Content</h4>
             </div>

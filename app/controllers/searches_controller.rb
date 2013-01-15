@@ -5,6 +5,15 @@ class SearchesController < ApplicationController
   def index
     @searches = Search.all
 
+    #Put the first thumbnail from the results as the search thumbnail
+    @searches.each do |search|
+      first_result = YtSearchResult.where(:search_id => search.id).first
+      search.update_attributes(:thumbnail => first_result.thumbnails)
+    end
+
+    @searches = Search.all
+
+    #Put the first thumbnail from the results as the search thumbnail
     @searches.each do |search|
       first_result = YtSearchResult.where(:search_id => search.id).first
       search.update_attributes(:thumbnail => first_result.thumbnails)
@@ -108,5 +117,17 @@ class SearchesController < ApplicationController
       format.html { redirect_to searches_url }
       format.json { head :no_content }
     end
+  end
+
+  def stop_search
+    search = Search.find(params[:id])
+    search.update_attributes(:active_search => false )
+    redirect_to searches_path
+  end
+
+  def start_search
+    search = Search.find(params[:id])
+    search.update_attributes(:active_search => true )
+    redirect_to searches_path
   end
 end

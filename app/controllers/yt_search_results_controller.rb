@@ -18,6 +18,7 @@ class YtSearchResultsController < ApplicationController
         end
     end
 
+
     #check for search id param and return results based on that id
     if params.has_key?(:search_id)
       #Get correct search details and order by the requested sort option if it exists
@@ -40,6 +41,13 @@ class YtSearchResultsController < ApplicationController
     @active_searches = Search.where(:active_search => true)
 
     @search = Search.find(@current_search)
+
+    if @search.active_search == true
+      @search_status = "Search is active"
+    else
+      @search_status ="Search is Inactive"
+    end
+
 
     update_notifications = @notify_new
     logger.debug "notify_new: :#{@notify_new.count}"
@@ -152,4 +160,18 @@ class YtSearchResultsController < ApplicationController
               
     redirect_to yt_search_results_path(:search_id => @search.id)
   end
+
+  def stop_search_results
+    search = Search.find(params[:id])
+    search.update_attributes(:active_search => false )
+    redirect_to yt_search_results_path(:search_id => search.id)
+  end
+
+  def start_search_results
+    search = Search.find(params[:id])
+    search.update_attributes(:active_search => true )
+    redirect_to yt_search_results_path(:search_id => search.id)
+  end
+
+
 end
