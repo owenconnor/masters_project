@@ -2,21 +2,25 @@
 	<h1>Create Search</h1>
 </div><!-- EO page-header -->
 <div class="row">
-	<div class="span2"></div>
 			<div class="span6">
 			<h4>Event Types</h4>
 			<div class="tabs-container">
 				<div class="tabbable">
 	  				<ul class="nav nav-tabs">
-	    				<li class="<%= 'active' if params[:pane] == 'pane1'|| !params[:pane] %>"><a href="#pane1" data-toggle="tab">Event List</a></li>
-					    <li class="<%= 'active' if params[:pane] == 'pane2' %>"><a href="#pane2" data-toggle="tab">Context Data</a></li>
-					    <li class="<%= 'active' if params[:pane] == 'pane3' %>"><a href="#pane3" data-toggle="tab">Review Search</a></li>
+	    				<li class="<%= 'active' if params[:pane] == 'pane1'|| !params[:pane] %>"><a href="#" data-toggle="tab">Event List</a></li>
+					    <li class="<%= 'active' if params[:pane] == 'pane2' %>"><a href="#" data-toggle="tab">Context Data</a></li>
+					    <li class="<%= 'active' if params[:pane] == 'pane3' %>"><a href="#" data-toggle="tab">Review Search</a></li>
 					</ul>
 	  				<div class="tab-content">
 	    				<div id="pane1" class="<%= if (params[:pane] == 'pane1' || !params[:pane])then 'tab-pane active'  else 'tab-pane' end%>">
 	      					<h4>Step 1 - Select an Event Type</h4>
-	      					<div>
-	      						<%= @ancestors %>
+	      					<h6> Browse the event tree to make a selection</h6>
+	      					<div class="ancestor_path">
+	      						<% if @ancestors != nil %>
+		      						<% @ancestors.each do |ancestor|%>
+		      						<strong><%= ancestor.name %></strong> >>
+		      						<% end %>
+	      						<% end %>
 	      					</div>
 	      					<div class="event-list">
 		      					<ul>
@@ -29,7 +33,7 @@
 								      					<%= concept.name%>
 								      				</span>
 								      				<span class="select-option">
-								      				Children<i class="icon-search"></i>
+								      				Sub Categories<i class="icon-search"></i>
 								      				</span><!-- EO select-option -->
 								      			</li>
 								      		<% end %>
@@ -61,12 +65,31 @@
 									<li class="span5">
 								    	<div class="thumbnail">
 									    	<img src="http://maps.google.com/maps/api/staticmap?size=320x260&maptype=roadmap&sensor=false&zoom=14&markers=color:pink|label:Search-Geo|<%= @search.latitude %>, <%= @search.longitude %>"></img>
-									    	<h3><%= @search.search_name %></h3>
-									    	<p><%= @search.context_terms %></p>
+									    	<h6>Search Details</h6>
+							                    <div class="search-details">
+							                    	<% if params[:pane] == 'pane3' %>
+								                      <span class="label">Created by <%= current_user.email %> <%= @search.created_at.strftime("%d %b %H:%M")%>  </span>
+								                      <% if @search.active_search == true%>
+								                        <span class="label">Status: Active</span>
+								                      <% else %>
+								                      <span class="label">Status: Inactive</span>
+								                      <% end %>
+								                      <span class="label">Location: <%= @search.location%></span>
+								                      <% if @search.latitude == nil %>
+								                        <span class="label">Geolocation: None Available</span>
+								                        <% else %>
+								                      <span class="label">Geolocation: <%= @search.latitude.to_s + "," + @search.longitude.to_s %></span>
+								                      <% end %>
+								                      <span class="label">Second Language: <%= @search.second_language %></span>
+								                      <span class="label">Terms: <%= @search.context_terms%></span>
+								                    <% end %>
+								                    </div><!-- EO search-details -->
 									    	<div class="action-buttons">
-                    <%= link_to "Edit Search", edit_search_path(@search.id), :class => "btn btn-small btn-primary"%>  
-                    <%= link_to "View Results", yt_search_results_path(:search_id => @search.id), :class => "btn btn-small btn-info"%>
-                    </div><!-- EO action-buttons --> 
+									    		<% if @search.id != nil %>
+							                    <%= link_to "Edit Search", edit_search_path(@search.id), :class => "btn btn-small btn-primary"%>
+							                    <% end %>  
+							                    <%= link_to "Start Search", youtube_search_path(:search_id => @search.id), :class => "btn btn-small btn-success"%>
+							                </div><!-- EO action-buttons --> 
 								    	</div>
 									</li>
 								</ul>

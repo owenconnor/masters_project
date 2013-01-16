@@ -1,22 +1,21 @@
 class SearchesController < ApplicationController
+  before_filter :authenticate_user!
   EasyTranslate.api_key = 'AIzaSyCJ1HG7J7kKOJXaqaw2Cpgcc_W1kawYUbw'
   # GET /searches
   # GET /searches.json
   def index
     @searches = Search.all
+    @personal_active_searches = Search.where(:user_id => current_user.id, :active_search => true)
+    @personal_archive = Search.where(:user_id => current_user.id, :active_search => false)
+    @newsroom_active_searches = Search.find(:all, :conditions => ["user_id NOT IN (?) AND active_search = ?", current_user.id, true])
+    @newsroom_archive = Search.find(:all, :conditions => ["user_id NOT IN (?) AND active_search = ?", current_user.id, false])
 
     #Put the first thumbnail from the results as the search thumbnail
     @searches.each do |search|
-      first_result = YtSearchResult.where(:search_id => search.id).first
-      search.update_attributes(:thumbnail => first_result.thumbnails)
-    end
-
-    @searches = Search.all
-
-    #Put the first thumbnail from the results as the search thumbnail
-    @searches.each do |search|
-      first_result = YtSearchResult.where(:search_id => search.id).first
-      search.update_attributes(:thumbnail => first_result.thumbnails)
+      if YtSearchResult.where(:search_id => search.id).first != nil
+        first_result = YtSearchResult.where(:search_id => search.id).first
+        search.update_attributes(:thumbnail => first_result.thumbnails)
+      end
     end
 
     respond_to do |format|
@@ -39,29 +38,34 @@ class SearchesController < ApplicationController
   # GET /searches/new
   # GET /searches/new.json
   def new
-    if Search.find(params[:search_id]) != nil
-      @search = Search.find(params[:search_id])
+    @user = current_user.id
+    # A search requires a Search ID, so make sure it is there
+    if params.has_key?(:search_concept_id)
+      @search = Search.new(:search_concept_id => params[:search_concept_id], :user_id => current_user.id)
     else
-      @search = Search.new(:search_concept_id => params[:search_concept_id])
+      @search = Search.new
     end
 
+    if params[:pane] == "pane3"
+      @search = Search.find(params[:search_id])
+    end
+    
     @search_concept_roots = SearchConcept.roots
 
     if params.has_key?(:get_children_of)
       @search_concept_items = SearchConcept.children_of(params[:get_children_of])
-      @ancestors = SearchConcept.find(params[:get_children_of]).ancestor_ids
+      @ancestors = SearchConcept.find(params[:get_children_of]).path
     else
        @search_concept_items = SearchConcept.roots
     end
 
     @search_concept_id = params[:search_concept_id]
 
-
-
     EasyTranslate.api_key = 'AIzaSyCJ1HG7J7kKOJXaqaw2Cpgcc_W1kawYUbw'
     @languages = Array.new
-    @languages = ["Arabic", "French", "German", "Spanish"]
+    @languages = ["Arabic", "French", "German", "Spanish", "Greek", "Swedish", "Dutch", "Japanese", "Chinese", "Indoneisan", "Italian", "Hebrew", "Portuguese"]
     logger.debug "@languages: #{@languages}"
+
     @possible_date_ranges = ["Today", "This Week", "This Month"]
 
     respond_to do |format|

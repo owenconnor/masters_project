@@ -11,12 +11,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130115222939) do
+ActiveRecord::Schema.define(:version => 20130116214022) do
 
   create_table "authors", :force => true do |t|
     t.string   "author_name"
     t.string   "author_url"
-    t.integer  "trusted_uploader_rank", :default => 0
+    t.integer  "trusted_uploader_rank", :default => 1, :null => false
     t.datetime "created_at",                           :null => false
     t.datetime "updated_at",                           :null => false
   end
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(:version => 20130115222939) do
     t.string   "geolocation"
     t.float    "latitude"
     t.float    "longitude"
+    t.integer  "user_id"
   end
 
   create_table "users", :force => true do |t|
@@ -87,16 +88,16 @@ ActiveRecord::Schema.define(:version => 20130115222939) do
     t.integer  "duration"
     t.integer  "viewcount"
     t.string   "geo"
-    t.datetime "created_at",                               :null => false
-    t.datetime "updated_at",                               :null => false
+    t.datetime "created_at",                                                             :null => false
+    t.datetime "updated_at",                                                             :null => false
     t.string   "video_id"
-    t.boolean  "notify_new",            :default => false
+    t.boolean  "notify_new",                                          :default => false
     t.integer  "author_id"
-    t.integer  "geo_rank"
-    t.integer  "search_terms_rank"
-    t.integer  "location_mention_rank"
-    t.integer  "trusted_uploader_rank"
-    t.integer  "ahp_rank"
+    t.decimal  "geo_rank",              :precision => 6, :scale => 4, :default => 1.0,   :null => false
+    t.decimal  "search_terms_rank",     :precision => 6, :scale => 4, :default => 1.0,   :null => false
+    t.decimal  "location_mention_rank", :precision => 6, :scale => 4, :default => 1.0,   :null => false
+    t.decimal  "trusted_uploader_rank", :precision => 6, :scale => 4, :default => 1.0,   :null => false
+    t.decimal  "ahp_rank",              :precision => 6, :scale => 4, :default => 1.0,   :null => false
   end
 
   add_index "yt_search_results", ["video_id"], :name => "index_yt_search_results_on_video_id", :unique => true

@@ -1,7 +1,7 @@
 require 'rufus/scheduler'
 scheduler = Rufus::Scheduler.start_new
 
-scheduler.every '10m' do
+scheduler.every '3m' do
 
     puts "Running Persistant Scheduled Searches!" 
     #Get all active searchs
@@ -36,13 +36,13 @@ scheduler.every '10m' do
 	puts "Finished Rufus Scheduled Searches!"
 end
 
-scheduler.every '10m' do
+scheduler.every '2m' do
     puts "Ranking Videos by each category!" 
         RankVideosWorker.perform_async
 	puts "Finished Ranking Videos by each category!"
 end
 
-scheduler.every '2m' do
+scheduler.every '3m' do
     puts "Ranking Videos using AHP!" 
         GenerateAhpRankingWorker.perform_async
 	puts "Finished Ranking Videos by AHP!"

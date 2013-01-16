@@ -5,3 +5,36 @@
 #main-header-alert {
 	margin-left:20px;
 }
+
+#tree {
+	list-style:none;
+}
+
+#tree li {
+	display:block;
+	width:50%;
+	background: #E5E5E5;
+	padding:10px;
+	margin:10px;
+}
+
+#tree .action-buttons {
+	float:right;
+}
+
+#sub-tree1 li {
+	width:300px;
+	display:block;
+	background: #ccc;
+}
+
+#sub-tree2 li{
+	width:240px;
+	display:block;
+	height:20px;
+	background: #D3DFEB;
+}
+
+.concept_action-buttons {
+	display:none;
+}

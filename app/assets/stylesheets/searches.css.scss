@@ -3,7 +3,8 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .search-container{
-	padding:20px;
+	padding:15px;
+	padding-bottom:30px;
 	border-style:solid;
   	border-width:1px;
   	border-color:#CDCDC1;
@@ -64,4 +65,18 @@
 	background-color:#E0E0E0;
 	color:#666666;
 	margin:5px;
+}
+
+.span10 {
+	padding-left:20px;
+	margin-left:20px;
+}
+
+.tabbable {
+	margin-top:10px;
+}
+
+.ancestor_path {
+	margin-bottom:20px;
+	font-size:14px;
 }

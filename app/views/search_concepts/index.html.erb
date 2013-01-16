@@ -1,69 +1,61 @@
 <%- model_class = SearchConcept -%>
 <div class="page-header">
-  <h1>Build a Search</h1>
+  <h1>Search Concepts</h1>
 </div>
- 
+  <div class="span12">
+    <%= link_to "New Search Concept", new_search_concept_path, :class => "btn btn-small btn-primary"%> 
+          <ul id="tree">
+            <% @roots.each do |search_concept| %>
+               <li> <%= link_to search_concept.name, search_concept_path(search_concept) %>
+                <div class="concept_action-buttons">
+                  <%= link_to t('.Create Child'), new_search_concept_path(:parent_id => search_concept.id), :class => 'btn btn-mini btn-info'   %>
+                          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                                      edit_search_concept_path(search_concept), :class => 'btn btn-mini' %>
+                          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                                      search_concept_path(search_concept),
+                                      :method => :delete,
+                                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                                      :class => 'btn btn-mini btn-danger' %>
+                </div>
+                <% unless search_concept.children.empty? %>
+                  <ul id="sub-tree1"> 
+                    <% search_concept.children.each do |sub_concept| %>
+                      <li> <%= link_to sub_concept.name, search_concept_path(sub_concept) %> 
+                            <div class="concept_action-buttons">
+                              <%= link_to t('.Create Child'), new_search_concept_path(:parent_id => search_concept.id), :class => 'btn btn-mini btn-info'   %>
+                                      <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                                                  edit_search_concept_path(search_concept), :class => 'btn btn-mini' %>
+                                      <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                                                  search_concept_path(search_concept),
+                                                  :method => :delete,
+                                                  :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                                                  :class => 'btn btn-mini btn-danger' %>
+                            </div>
+                           <% unless sub_concept.children.empty? %>
+                           <ul id="sub-tree2"> 
+                            <% sub_concept.children.each do |sub_conceptb| %>
+                            <li> <%= link_to sub_conceptb.name, search_concept_path(sub_conceptb) %> 
+                            <div class="concept_action-buttons">
+                              <%= link_to t('.Create Child'), new_search_concept_path(:parent_id => sub_conceptb.id), :class => 'btn btn-mini btn-info'   %>
+                                      <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                                                  edit_search_concept_path(sub_conceptb), :class => 'btn btn-mini' %>
+                                      <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                                                  search_concept_path(sub_conceptb),
+                                                  :method => :delete,
+                                                  :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                                                  :class => 'btn btn-mini btn-danger' %>
+                            </div>
+                            <% end %>
+                            <% end %>
 
-<div class="row">
-  <div class="span6">
-    <h4>Pick time period</h4>
-    This month, this week, today
-    
-
-  </div>
-</div>
-<div class="row">
-  <div class="span2"></div>
-  <div class="span4">
-    <h2>Select a Location</h2>
-     
-  </div> <!-- EO span4 -->
-  <div class="span4">
-    <h2>Add Predefined Terms</h2>
-     <table class="table table-striped">
-        <thead>
-          <tr>
-            <th><%= model_class.human_attribute_name(:id) %></th>
-            <th><%= model_class.human_attribute_name(:name) %></th>
-            <th><%= model_class.human_attribute_name(:terms) %></th>
-
-            <th><%=t '.actions', :default => t("helpers.actions") %></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @search_concepts.each do |search_concept| %>
-            <tr>
-              <td><%= link_to search_concept.id, search_concept_path(search_concept) %></td>
-              <td><%= search_concept.name %></td>
-              <td><%= search_concept.terms %></td>
-              <td>
-                <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                            edit_search_concept_path(search_concept), :class => 'btn btn-mini' %>
-                <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                            search_concept_path(search_concept),
-                            :method => :delete,
-                            :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                            :class => 'btn btn-mini btn-danger' %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>  
-  </div> <!-- EO span4 -->
-  <div class="span4">
-    <h2>Add your own terms</h2>
-  </div> <!-- EO span4 -->
-
-</div><!-- EO row -->
-<div class="row"><!-- new Row -->
-  <div class="span6"><!-- span6 -->
-    <h3>Completed Query</h3>
-  </div><!-- EO span6 -->
-</div><!-- EO row -->
-<div class="row">
-  <span class="span5">
-    <%= link_to "Create Search",new_search_path(),:class => 'btn btn-primary' %>
-  </div><!--EO span5 -->
-</div><!-- EO row -->
+                           </ul> 
+                      </li>
+                  <% end %>
+                  </ul>
+                  <% end %>
+               </li>
+            <% end %>
+          </ul>
+</div> <!-- EO span12 -->
 
   

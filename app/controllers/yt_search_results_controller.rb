@@ -1,4 +1,5 @@
 class YtSearchResultsController < ApplicationController
+  before_filter :authenticate_user!
   # GET /yt_search_results
   # GET /yt_search_results.json
   def index
@@ -12,12 +13,26 @@ class YtSearchResultsController < ApplicationController
         when "geo"
           @sort_by = "geo"
         when "ranking"
-          # send to ranking
+          @sort_by = "ahp_rank"
+        when "trusted_uploader"
+          @sort_by = "trusted_uploader_rank"
+        when "search_term_score"
+          @sort_by = "search_terms_rank"
+        when "location_score"
+          @sort_by = "location_mention_rank"
         else
           @sort_by = "notify_new"
         end
     end
 
+    #In order to populate left hand nav menu
+    @personal_active_searches = Search.where(:user_id => current_user.id, :active_search => true)
+    #get last 5 results from archive
+    @all_archive = Search.where(:active_search => false).limit(5)
+    @newsroom_active_searches = Search.find(:all, :conditions => ["user_id NOT IN (?) AND active_search = ?", current_user.id, true])
+    
+
+  
 
     #check for search id param and return results based on that id
     if params.has_key?(:search_id)
@@ -36,18 +51,16 @@ class YtSearchResultsController < ApplicationController
       redirect_to searches_path notice: 'There is no search with that ID. Please select one from below.'
     end
 
-    @new_results = YtSearchResult.where(:search_id => params[:search_id], :notify_new => true)
-    
-    @active_searches = Search.where(:active_search => true)
-
+    #Highlight current search in Nav Menu
     @search = Search.find(@current_search)
-
     if @search.active_search == true
       @search_status = "Search is active"
     else
       @search_status ="Search is Inactive"
     end
 
+    
+    @new_results = YtSearchResult.where(:search_id => params[:search_id], :notify_new => true)
 
     update_notifications = @notify_new
     logger.debug "notify_new: :#{@notify_new.count}"

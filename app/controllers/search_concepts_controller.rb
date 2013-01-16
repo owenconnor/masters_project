@@ -1,8 +1,11 @@
 class SearchConceptsController < ApplicationController
+  before_filter :authenticate_user!
   # GET /search_concepts
   # GET /search_concepts.json
   def index
     @search_concepts = SearchConcept.all
+    @roots = SearchConcept.roots
+
     
 
     respond_to do |format|

@@ -7,9 +7,9 @@ class RankVideosWorker
 		all_unranked_video.each do |video|
 			#Add a score if the video has a geolocation
 			if video.geo == "No Geolocation"
-				geo_score = 0
-			else 
 				geo_score = 1
+			else 
+				geo_score = 3
 			end
 
 			#See if the title and desciption carry many occurences of the search terms
@@ -22,7 +22,7 @@ class RankVideosWorker
 			#puts "context_terms"
 			#puts search.context_terms
 			if search.context_terms == "" || nil
-				title_score = 0
+				title_score = 1
 			else
 
 				search.context_terms.split(",").each do |context_term|
@@ -55,13 +55,35 @@ class RankVideosWorker
 				location_term_current_score = location_term_current_score.to_i + location_term_freqeuncy.to_i
 				#the broader a location term the less valuable eg locality, city, country
 				accurate_location = accurate_location - 3
+				if location_term_current_score < 1
+					location_term_current_score = 1
+				end
 			end 
 
 			#Assign uploader rank based on a scorce gived by users
 			#puts video.author_name
-			uploader_rank = Author.find_by_author_name("#{video.author_name}")
-			#puts uploader_rank.trusted_uploader_rank
-			video.update_attributes(:geo_rank => geo_score, :search_terms_rank => title_score, :location_mention_rank => location_term_current_score, :trusted_uploader_rank => uploader_rank.trusted_uploader_rank)
+			#uploader_rank = Author.find(:all, :author_name => video.author_name)
+			#puts video.author_name
+			begin
+			uploader_rank = Author.where(:author_name => video.author_name).first
+			if uploader_rank.trusted_uploader_rank == nil
+				processed_uploader_rank = 1
+			else
+				processed_uploader_rank = uploader_rank.trusted_uploader_rank
+			end
+			#puts "processed_uploader_rank"
+			#puts processed_uploader_rank
+			rescue
+				puts "error finding trusted_uploader_rank"
+				processed_uploader_rank = 1
+			end
+			#if uploader_rank == nil
+			#	puts "where the fuck is it"
+			#else
+			#	puts "uploader_rank.trusted_uploader_rank"
+			#	puts uploader_rank.trusted_uploader_rank
+			#end
+			video.update_attributes(:geo_rank => geo_score, :search_terms_rank => title_score, :location_mention_rank => location_term_current_score, :trusted_uploader_rank => processed_uploader_rank)
 		end
 	end
 end

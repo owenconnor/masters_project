@@ -1,7 +1,6 @@
 # encoding: utf-8
 class YtSearchResult < ActiveRecord::Base
-    belongs_to :author
-  	attr_accessible :author_name, :author_url, :category, :description, :duration, :embed_url, :geo, :id, :keywords, :player_url, :published, :search_id, :thumbnails, :title, :updated, :viewcount, :video_id, :notify_new,:geo_rank, :search_terms_rank, :location_mention_rank, :trusted_uploader_rank
+  	attr_accessible :author_name, :author_url, :category, :description, :duration, :embed_url, :geo, :id, :keywords, :player_url, :published, :search_id, :thumbnails, :title, :updated, :viewcount, :video_id, :notify_new,:geo_rank, :search_terms_rank, :location_mention_rank, :trusted_uploader_rank, :ahp_rank
     EasyTranslate.api_key = 'AIzaSyCJ1HG7J7kKOJXaqaw2Cpgcc_W1kawYUbw'
     #self.per_page = 10
 
@@ -13,6 +12,7 @@ class YtSearchResult < ActiveRecord::Base
   	end
 
     def self.get_combined_context_terms(search_id)
+      #place all search terms together in single array
       search = Search.find(search_id)
       predefined_terms = SearchConcept.find(search.search_concept_id).terms
       context_terms = Search.find(search.id).context_terms
@@ -26,13 +26,18 @@ class YtSearchResult < ActiveRecord::Base
     end
 
     def self.translate_terms(terms, search_id)
-        @second_lang = "arabic"#Search.find(search_id).second_language
-        logger.debug "terms passed to model:#{terms}"
-        translated_terms = Array.new
-        terms.each do |term|
-          translated_terms.push(EasyTranslate.translate(term, :to => @second_lang)) #@second_lang.to_sym
+        @second_lang = Search.find(search_id).second_language
+        if @second_language == nil || ""
+          translated_terms = [""]
+        else  
+          logger.debug "terms passed to model:#{terms}"
+          translated_terms = Array.new
+          #iterate through terms, tranlate and add to array
+          terms.each do |term|
+            translated_terms.push(EasyTranslate.translate(term, :to => @second_lang)) 
+          end
+          logger.debug "translated_terms to be returned:#{translated_terms}"
         end
-        logger.debug "translated_terms to be returned:#{translated_terms}"
         return translated_terms
         
     end
@@ -132,8 +137,12 @@ class YtSearchResult < ActiveRecord::Base
         existing_author = all_previous_authors.include?(author_url)
         logger.debug "existing_author?: #{existing_author}"
         if existing_author == false
+          begin
           author =  Author.new
           author.update_attributes(:author_name => author_name, :author_url => author_url) 
+          rescue
+            logger.debug "Author not Written to DB"
+          end
           logger.debug "Author is not a dupe"
         else
           logger.debug "Duplicate author found and not added"
