@@ -7,26 +7,26 @@
               <li>No Active Searches</li>
             <% end %>
             <%  @personal_active_searches.each do |active_search|%>
-              <% if @current_search == active_search.id%>
-                <li class="active"><%= link_to active_search.search_name, yt_search_results_path(:search_id => active_search.id)%></li>
+              <% if @current_search.to_i == active_search.id.to_i %>
+                <li class="active"><%= link_to active_search.search_name, yt_search_results_path(:search_id => active_search.id)%> <span class="badge badge-info"><%= active_search.notification_count %></span></li>
               <% else %>    
-                <li ><%= link_to active_search.search_name, yt_search_results_path(:search_id => active_search.id)%></li>
+                <li ><%= link_to active_search.search_name, yt_search_results_path(:search_id => active_search.id)%> <span class="badge badge-info"><%= active_search.notification_count%></span></li>
               <% end %>
             <% end %>
             <li class="nav-header">Active Newsroom Searches</li>
             <%  @newsroom_active_searches.each do |active_search|%>
-              <% if @current_search == active_search.id%>
-                <li ><%= link_to active_search.search_name, yt_search_results_path(:search_id => active_search.id)%></li>
+              <% if @current_search.to_i == active_search.id.to_i%>
+                <li ><%= link_to active_search.search_name, yt_search_results_path(:search_id => active_search.id)%> <span class="badge badge-info"><%= active_search.notification_count%></span></li>
               <% else %>    
-                <li ><%= link_to active_search.search_name, yt_search_results_path(:search_id => active_search.id)%></li>
+                <li ><%= link_to active_search.search_name, yt_search_results_path(:search_id => active_search.id)%> <span class="badge badge-info"><%= active_search.notification_count%></span></li>
               <% end %>
             <% end %>
             <li class="nav-header">Recent Searches</li>
             <%  @all_archive.each do |active_search|%>
               <% if @current_search == active_search.id%>
-                <li ><%= link_to active_search.search_name, yt_search_results_path(:search_id => active_search.id)%></li>
+                <li ><%= link_to active_search.search_name, yt_search_results_path(:search_id => active_search.id)%> <span class="badge badge-info"><%= active_search.notification_count%></span></li>
               <% else %>    
-                <li ><%= link_to active_search.search_name, yt_search_results_path(:search_id => active_search.id)%></li>
+                <li ><%= link_to active_search.search_name, yt_search_results_path(:search_id => active_search.id)%> <span class="badge badge-info"><%= active_search.notification_count%></span></li>
               <% end %>
             <% end %>
 
